@@ -14,7 +14,10 @@ import {
   Input,
   Button,
   FormErrorMessage,
-} from "@chakra-ui/core";
+  Image,
+} from "@chakra-ui/react";
+import { homeRoutePath } from "../../../routes/config";
+import innova from "../../../assets/images/Innova_site.png";
 
 const Login: React.FC = () => {
   const history = useHistory();
@@ -27,7 +30,9 @@ const Login: React.FC = () => {
       onError: (error: any) => {
         console.log(error);
       },
-      onSuccess: () => {},
+      onSuccess: () => {
+        history.push(homeRoutePath);
+      },
     }
   );
 
@@ -43,9 +48,7 @@ const Login: React.FC = () => {
   return (
     <Flex width="full" align="center" justifyContent="center">
       <Box p={2}>
-        <Box textAlign="center">
-          <Heading>Login</Heading>
-        </Box>
+        <Image src={innova} maxW={450} mt={100} mb={30} />
         <Box
           my={4}
           textAlign="left"
@@ -55,6 +58,9 @@ const Login: React.FC = () => {
           borderRadius={8}
           boxShadow="lg"
         >
+          <Box textAlign="center">
+            <Heading>Login</Heading>
+          </Box>
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl mt={6} isInvalid={!!errors.email}>
               <Alert

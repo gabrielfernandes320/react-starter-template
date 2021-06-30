@@ -16,7 +16,7 @@ export default class LoginService {
     }
 
     Request.setHeader("Authorization", data);
-    localStorage.setItem("token", data.token);
+    localStorage.setItem("@innova-token", data.token);
   }
 
   public static async logout() {

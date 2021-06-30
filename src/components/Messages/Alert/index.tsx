@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Alert, AlertIcon, AlertDescription } from "@chakra-ui/core";
+import { Box, Alert, AlertIcon, AlertDescription } from "@chakra-ui/react";
 
 interface Props {
   message: string;
