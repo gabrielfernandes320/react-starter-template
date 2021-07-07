@@ -1,6 +1,6 @@
 import Request from "./request";
 
-export default class LoginHttpService {
+export default class AuthHttpService {
   public static login(email: string, password: string) {
     return Request.post("/auth/login", {
       email,
@@ -18,5 +18,13 @@ export default class LoginHttpService {
 
   public static logout() {
     return Request.get("/auth/logout");
+  }
+
+  public static getAuthenticatedUser() {
+    return Request.get("/user");
+  }
+
+  public static validateToken() {
+    return Request.get("/validate-token");
   }
 }

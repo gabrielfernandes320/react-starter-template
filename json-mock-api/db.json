@@ -20,5 +20,12 @@
   ],
   "profile": {
     "name": "typicode"
+  },
+  "user": {
+    "id": 1,
+    "name": "gabriel"
+  },
+  "validate-token": {
+    "isValid": true
   }
 }

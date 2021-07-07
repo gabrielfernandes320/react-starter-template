@@ -2,7 +2,8 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ILogin } from "../../../interfaces/auth/login";
-import LoginService from "../../../services/login";
+//import AuthService from "../../../services/auth/auth";
+import useAuth from "../../../hooks/useAuth";
 import { useMutation } from "react-query";
 import Alert from "../../../components/Messages/Alert";
 import {
@@ -20,11 +21,12 @@ import { homeRoutePath } from "../../../routes/config";
 import innova from "../../../assets/images/Innova_site.png";
 
 const Login: React.FC = () => {
+  const auth = useAuth();
   const history = useHistory();
   const mutation = useMutation(
     async (data: ILogin) => {
       console.log(data);
-      await LoginService.login(data);
+      await auth.login(data);
     },
     {
       onError: (error: any) => {

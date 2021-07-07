@@ -12,7 +12,6 @@ function App() {
         <ChakraProvider theme={theme}>
           <QueryClientProvider client={queryClient}>
             <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-
             <Routes />
           </QueryClientProvider>
         </ChakraProvider>
