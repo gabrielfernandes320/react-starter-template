@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import Home from "../../../pages/Home";
 import PrivateRoute from "../../components/PrivateRoute";
 

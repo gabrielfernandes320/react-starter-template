@@ -21,6 +21,7 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import innova from "../../../assets/images/Innova_site.png";
 
 import ThemeToggler from "../../Theme/ThemeToggler";
+import useAuth from "../../../hooks/useAuth";
 
 const Links = ["Crud", "Projects", "Team"];
 
@@ -40,6 +41,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 export default function Simple({ children }: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { logout } = useAuth();
 
   return (
     <>
@@ -86,7 +88,7 @@ export default function Simple({ children }: any) {
                 <MenuItem>Link 1</MenuItem>
                 <MenuItem>Link 2</MenuItem>
                 <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
+                <MenuItem onClick={() => logout()}>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Flex>

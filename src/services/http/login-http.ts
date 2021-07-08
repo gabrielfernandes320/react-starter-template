@@ -16,10 +16,6 @@ export default class AuthHttpService {
     return Request.post("/auth/reset-password", data);
   }
 
-  public static logout() {
-    return Request.get("/auth/logout");
-  }
-
   public static getAuthenticatedUser() {
     return Request.get("/user");
   }

@@ -25,7 +25,6 @@ const Login: React.FC = () => {
   const history = useHistory();
   const mutation = useMutation(
     async (data: ILogin) => {
-      console.log(data);
       await auth.login(data);
     },
     {

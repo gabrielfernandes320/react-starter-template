@@ -3,7 +3,7 @@ import AuthHttpService from "../services/http/login-http";
 import { ILogin } from "../interfaces/auth/login";
 import Request from "../services/http/request";
 import { useHistory } from "react-router-dom";
-import { signInRoutePath } from "../routes/config";
+import { loginRoutePath } from "../routes/config";
 import { useLocalStorageValue } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
@@ -15,17 +15,21 @@ const useAuth = () => {
     key: TOKEN_KEY,
   });
   const [user, setUser] = useState({});
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getUser = async () => {
-      const resp = await AuthHttpService.getAuthenticatedUser();
+    const check = async () => {
+      setLoading(true);
 
-      setUser(resp.data);
+      setIsAuthenticated(await validateToken());
+
+      setLoading(false);
+      return;
     };
 
-    getUser();
-
-    return () => {};
+    check();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = async (login: ILogin) => {
@@ -40,29 +44,31 @@ const useAuth = () => {
 
     Request.setHeader(AUTH_HEADER_KEY, data);
     setToken(data.token);
+    setUser(data.user);
+    setIsAuthenticated(true);
   };
 
-  const isAuthenticated = (): boolean => {
-    // if (!token) {
-    //   return false;
-    // }
+  const validateToken = async (): Promise<boolean> => {
+    if (!token) {
+      return false;
+    }
 
-    // const resp = await AuthHttpService.validateToken();
+    const resp = await AuthHttpService.validateToken();
 
-    // if (resp.data?.isValid) {
-    //   return true;
-    // }
+    if (resp.data?.isValid) {
+      return true;
+    }
 
-    return token ? true : false;
+    return false;
   };
 
   const logout = async () => {
-    await AuthHttpService.logout();
+    setToken("");
 
-    history.push(signInRoutePath);
+    history.push(loginRoutePath);
   };
 
-  return { login, logout, isAuthenticated, user } as IUseAuth;
+  return { login, logout, isAuthenticated, user, loading } as IUseAuth;
 };
 
 export default useAuth;

@@ -19,7 +19,13 @@ server.post("/auth/login", (req, res) => {
       return rand() + rand(); // to make it longer
     };
 
-    res.json({ token: token() });
+    res.json({
+      token: token(),
+      user: {
+        id: 1,
+        name: "gabriel",
+      },
+    });
   } else {
     res.status(401).json({ message: "WRONG_USER" });
   }
