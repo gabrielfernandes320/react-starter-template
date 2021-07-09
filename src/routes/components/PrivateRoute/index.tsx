@@ -21,7 +21,7 @@ const PrivateRoute: React.FC<Props> = ({ component: Component, ...rest }) => {
       render={(props) =>
         loading ? (
           <Flex
-            height="2xl"
+            height="100vh"
             width="full"
             align="center"
             justifyContent="center"

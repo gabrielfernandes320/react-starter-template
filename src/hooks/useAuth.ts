@@ -53,9 +53,9 @@ const useAuth = () => {
       return false;
     }
 
-    const resp = await AuthHttpService.validateToken();
+    const { data } = await AuthHttpService.validateToken();
 
-    if (resp.data?.isValid) {
+    if (data?.isValid) {
       return true;
     }
 

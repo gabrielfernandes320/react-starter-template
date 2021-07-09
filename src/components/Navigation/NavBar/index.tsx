@@ -85,9 +85,6 @@ export default function Simple({ children }: any) {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
-                <MenuDivider />
                 <MenuItem onClick={() => logout()}>Logout</MenuItem>
               </MenuList>
             </Menu>

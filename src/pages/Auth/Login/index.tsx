@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ILogin } from "../../../interfaces/auth/login";
 //import AuthService from "../../../services/auth/auth";
@@ -16,6 +16,7 @@ import {
   Button,
   FormErrorMessage,
   Image,
+  Text,
 } from "@chakra-ui/react";
 import { homeRoutePath } from "../../../routes/config";
 import innova from "../../../assets/images/Innova_site.png";
@@ -47,17 +48,16 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Flex width="full" align="center" justifyContent="center">
-      <Box p={2}>
+    <Flex align="center" justifyContent="center">
+      <Box p={"2"}>
         <Image src={innova} maxW={450} mt={100} mb={30} />
         <Box
-          my={4}
           textAlign="left"
           p={8}
-          maxWidth="500px"
+          //maxWidth="500px"
           borderWidth={1}
           borderRadius={8}
-          boxShadow="lg"
+          boxShadow="xl"
         >
           <Box textAlign="center">
             <Heading>Login</Heading>
@@ -105,15 +105,35 @@ const Login: React.FC = () => {
                 {errors.password && errors.password.message}
               </FormErrorMessage>
             </FormControl>
+            <Text>
+              Forgot your password?{" "}
+              <Button
+                variant={"link"}
+                fontWeight={"bold"}
+                as={"a"}
+                href={"/home"}
+              >
+                Account recovery
+              </Button>
+            </Text>
+            <Button
+              isLoading={mutation.isLoading}
+              type="submit"
+              variant="solid"
+              width="full"
+              mt={"10"}
+            >
+              Sign In
+            </Button>
             <Button
               isLoading={mutation.isLoading}
               type="submit"
               variantColor="teal"
-              variant="solid"
+              variant="outline"
               width="full"
-              mt={4}
+              mt={"2"}
             >
-              Sign In
+              Sign Up
             </Button>
           </form>
         </Box>
