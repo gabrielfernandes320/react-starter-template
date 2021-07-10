@@ -3,5 +3,5 @@ export interface IUseAuth {
   logout: Function;
   isAuthenticated: boolean;
   user: {};
-  loading: boolean;
+  isLoading: boolean;
 }

@@ -1,12 +1,12 @@
 import React from "react";
 import { Switch } from "react-router-dom";
-import { List } from "../../../pages/Example";
+import { List } from "../../../pages/Users";
 import PrivateRoute from "../../components/PrivateRoute";
 
-export const exampleRoutePath = "/example";
+export const usersRoutePath = "/users";
 
-export const ExampleRoutesComponent: React.FC = () => (
+export const UsersRoutesComponent: React.FC = () => (
   <Switch>
-    <PrivateRoute path={exampleRoutePath} component={List} exact />
+    <PrivateRoute path={usersRoutePath} component={List} exact />
   </Switch>
 );

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Route, Redirect, RouteProps } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import { loginRoutePath } from "../../config";
-import { Box, Container, Flex, Spinner } from "@chakra-ui/react";
+import { Flex, Spinner } from "@chakra-ui/react";
 
 interface Props extends RouteProps {
   component?: any;
@@ -13,13 +13,13 @@ interface Props extends RouteProps {
 }
 
 const PrivateRoute: React.FC<Props> = ({ component: Component, ...rest }) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
 
   return (
     <Route
       {...rest}
       render={(props) =>
-        loading ? (
+        isLoading ? (
           <Flex
             height="100vh"
             width="full"

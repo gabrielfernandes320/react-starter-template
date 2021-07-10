@@ -5,15 +5,15 @@ import {
   loginRoutePath,
   HomeRoutesComponent,
   homeRoutePath,
-  ExampleRoutesComponent,
-  exampleRoutePath,
+  UsersRoutesComponent,
+  usersRoutePath,
 } from "./config";
 
 const AppRoutes: React.FC = () => (
   <Switch>
     <Route path={loginRoutePath} component={AuthRoutesComponent} />
     <Route path={homeRoutePath} component={HomeRoutesComponent} />
-    <Route path={exampleRoutePath} component={ExampleRoutesComponent} />
+    <Route path={usersRoutePath} component={UsersRoutesComponent} />
   </Switch>
 );
 

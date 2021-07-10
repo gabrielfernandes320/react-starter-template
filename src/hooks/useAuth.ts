@@ -16,15 +16,15 @@ const useAuth = () => {
   });
   const [user, setUser] = useState({});
   const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const check = async () => {
-      setLoading(true);
+      setIsLoading(true);
 
       setIsAuthenticated(await validateToken());
 
-      setLoading(false);
+      setIsLoading(false);
       return;
     };
 
@@ -68,7 +68,7 @@ const useAuth = () => {
     history.push(loginRoutePath);
   };
 
-  return { login, logout, isAuthenticated, user, loading } as IUseAuth;
+  return { login, logout, isAuthenticated, user, isLoading } as IUseAuth;
 };
 
 export default useAuth;
