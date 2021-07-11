@@ -1,5 +1,6 @@
 import { useTable } from "react-table";
 import {
+  Box,
   chakra,
   Table as ChTable,
   Tbody,
@@ -17,32 +18,37 @@ export default function Table({ columns, data }: any) {
     });
 
   return (
-    <ChTable {...getTableProps()}>
-      <Thead>
-        {headerGroups.map((headerGroup) => (
-          <Tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column: any) => (
-              <Th {...column.getHeaderProps()} isNumeric={column.isNumeric}>
-                {column.render("Header")}
-              </Th>
-            ))}
-          </Tr>
-        ))}
-      </Thead>
-      <Tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
-          prepareRow(row);
-          return (
-            <Tr {...row.getRowProps()}>
-              {row.cells.map((cell: any) => (
-                <Td {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
-                  {cell.render("Cell")}
-                </Td>
+    <Box p={4} pt={"2"} pl={"6"}>
+      <ChTable {...getTableProps()}>
+        <Thead>
+          {headerGroups.map((headerGroup) => (
+            <Tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column: any) => (
+                <Th {...column.getHeaderProps()} isNumeric={column.isNumeric}>
+                  {column.render("Header")}
+                </Th>
               ))}
             </Tr>
-          );
-        })}
-      </Tbody>
-    </ChTable>
+          ))}
+        </Thead>
+        <Tbody {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+            return (
+              <Tr {...row.getRowProps()}>
+                {row.cells.map((cell: any) => (
+                  <Td
+                    {...cell.getCellProps()}
+                    isNumeric={cell.column.isNumeric}
+                  >
+                    {cell.render("Cell")}
+                  </Td>
+                ))}
+              </Tr>
+            );
+          })}
+        </Tbody>
+      </ChTable>
+    </Box>
   );
 }

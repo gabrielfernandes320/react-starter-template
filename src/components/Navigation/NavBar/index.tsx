@@ -28,12 +28,14 @@ const NavLink = ({ children, to }: { children: ReactNode; to: string }) => (
   <Link
     as={ReactLink}
     to={to}
+    height={"full"}
     px={2}
     py={1}
+    bg={useColorModeValue("gray.200", "gray.600")}
     rounded={"md"}
     _hover={{
       textDecoration: "none",
-      bg: useColorModeValue("gray.200", "gray.700"),
+      bg: useColorModeValue("gray.300", "gray.700"),
     }}
   >
     {children}
@@ -47,7 +49,7 @@ export default function Navbar({ children }: any) {
   return (
     <>
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
-        <Flex h={"24"} alignItems={"center"} justifyContent={"space-between"}>
+        <Flex h={"20"} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}

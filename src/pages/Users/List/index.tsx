@@ -1,4 +1,9 @@
-import { ArrowBackIcon, AddIcon, HamburgerIcon } from "@chakra-ui/icons";
+import {
+  ArrowBackIcon,
+  AddIcon,
+  HamburgerIcon,
+  SpinnerIcon,
+} from "@chakra-ui/icons";
 import {
   Box,
   Text,
@@ -10,19 +15,22 @@ import {
   MenuItem,
   MenuList,
   useToast,
-  FormControl,
-  FormLabel,
   Switch,
+  HStack,
+  Tag,
+  Spinner,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "react-query";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Column } from "react-table";
-import NavBar from "../../../components/Navigation/NavBar";
+import NavBar from "../../../components/navigation/NavBar";
 import UserHttpService from "../../../services/http/user-http";
 import { AxiosResponse } from "axios";
 import { IUser } from "../../../interfaces/user/user";
 import Table from "../../../components/data-display/Table";
+import luxon from "luxon";
+import { IRole } from "../../../interfaces/role/role";
 
 export const List: React.FC = () => {
   const toast = useToast();
@@ -32,7 +40,7 @@ export const List: React.FC = () => {
     return data;
   });
 
-  const mutation = useMutation(
+  const destroyMutation = useMutation(
     async (id: number) => {
       await UserHttpService.destroy(id);
     },
@@ -56,6 +64,30 @@ export const List: React.FC = () => {
     }
   );
 
+  const updateMutation = useMutation(
+    async (data: IUser) => {
+      await UserHttpService.update(data);
+    },
+    {
+      onError: (error: any) => {
+        toast({
+          title: "Error at updating the user.",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      },
+      onSuccess: () => {
+        toast({
+          title: "Sucess at updating the user.",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      },
+    }
+  );
+
   const history = useHistory();
 
   const memoData: IUser[] = React.useMemo(() => data, [data]);
@@ -71,10 +103,43 @@ export const List: React.FC = () => {
         accessor: "name",
       },
       {
-        Header: "Status",
-        accessor: "status",
-        Cell: (props: any) => <Switch />,
+        Header: "Email",
+        accessor: "email",
       },
+      {
+        Header: "Criado em",
+        accessor: "createdAt",
+      },
+      {
+        Header: "Roles",
+        accessor: "roles",
+        Cell: (props: any) => (
+          <HStack spacing={"2"}>
+            {props.row.original.roles.map((role: IRole) => (
+              <Tag size={"lg"} key={role.id} variant="solid" colorScheme="blue">
+                {role.name}
+              </Tag>
+            ))}
+          </HStack>
+        ),
+      },
+      {
+        Header: "Enabled",
+        accessor: "status",
+        Cell: (props: any) => (
+          <Switch
+            size={"lg"}
+            onChange={async () => {
+              const data: IUser = props.row.original;
+              data.enabled = !data.enabled;
+              await updateMutation.mutateAsync(data);
+              refetch();
+            }}
+            isChecked={props.row.original.enabled}
+          />
+        ),
+      },
+
       {
         Header: "Actions",
         accessor: "action",
@@ -89,7 +154,7 @@ export const List: React.FC = () => {
               <MenuItem>Edit</MenuItem>
               <MenuItem
                 onClick={async () => {
-                  await mutation.mutateAsync(+props.row.original.id);
+                  await destroyMutation.mutateAsync(+props.row.original.id);
                   refetch();
                 }}
               >
@@ -100,7 +165,7 @@ export const List: React.FC = () => {
         ),
       },
     ],
-    [mutation, refetch]
+    [destroyMutation, refetch, updateMutation]
   );
 
   return (
@@ -126,18 +191,31 @@ export const List: React.FC = () => {
           variant={"ghost"}
           icon={<ArrowBackIcon w={7} h={7} />}
         />
+
         <Box>
           <Text fontSize={"xl"} fontWeight="bold">
             Users
           </Text>
           <Text fontSize={"md"}>All yours users in one place</Text>
         </Box>
+
         <Spacer />
-        <Button leftIcon={<AddIcon />} alignContent={"flex-end"}>
-          New User
-        </Button>
+        <Box pr={6}>
+          <Button
+            leftIcon={
+              destroyMutation.isLoading || updateMutation.isLoading ? (
+                <Spinner size="sm" />
+              ) : (
+                <AddIcon />
+              )
+            }
+            alignContent={"flex-end"}
+          >
+            New User
+          </Button>
+        </Box>
       </Box>
-      <Table columns={columns} data={memoData} />
+      <Table columns={columns} data={memoData ?? []} />
     </NavBar>
   );
 };
