@@ -1,63 +1,66 @@
-import {
-  ArrowBackIcon,
-  AddIcon,
-  TriangleDownIcon,
-  TriangleUpIcon,
-} from "@chakra-ui/icons";
+import { ArrowBackIcon, AddIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Box,
-  chakra,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
   Text,
   IconButton,
-  Flex,
-  Grid,
-  SimpleGrid,
-  Button,
   Spacer,
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  useToast,
+  FormControl,
+  FormLabel,
+  Switch,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "react-query";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useTable, useSortBy, Column } from "react-table";
+import { Column } from "react-table";
 import NavBar from "../../../components/Navigation/NavBar";
 import UserHttpService from "../../../services/http/user-http";
 import { AxiosResponse } from "axios";
+import { IUser } from "../../../interfaces/user/user";
+import Table from "../../../components/data-display/Table";
 
 export const List: React.FC = () => {
-  const { isLoading, refetch } = useQuery(["users"], async () => {
+  const toast = useToast();
+
+  const { data, isLoading, refetch } = useQuery(["users"], async () => {
     const { data }: AxiosResponse = await UserHttpService.index();
     return data;
   });
-  const history = useHistory();
 
-  const data = React.useMemo(
-    () => [
-      {
-        fromUnit: "inches",
-        toUnit: "millimetres (mm)",
-        factor: 25.4,
+  const mutation = useMutation(
+    async (id: number) => {
+      await UserHttpService.destroy(id);
+    },
+    {
+      onError: (error: any) => {
+        toast({
+          title: "Error at deleting the user.",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
       },
-      {
-        fromUnit: "feet",
-        toUnit: "centimetres (cm)",
-        factor: 30.48,
+      onSuccess: () => {
+        toast({
+          title: "Sucess at deleting the user.",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
       },
-      {
-        fromUnit: "id",
-        toUnit: "metres (m)",
-        factor: 0.91444,
-      },
-    ],
-    []
+    }
   );
 
-  const columns: Column<any>[] = React.useMemo(
+  const history = useHistory();
+
+  const memoData: IUser[] = React.useMemo(() => data, [data]);
+
+  const columns: Column[] = React.useMemo(
     () => [
       {
         Header: "Id",
@@ -67,11 +70,39 @@ export const List: React.FC = () => {
         Header: "Name",
         accessor: "name",
       },
+      {
+        Header: "Status",
+        accessor: "status",
+        Cell: (props: any) => <Switch />,
+      },
+      {
+        Header: "Actions",
+        accessor: "action",
+        Cell: (props: any) => (
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              variant={"ghost"}
+              icon={<HamburgerIcon />}
+            />
+            <MenuList>
+              <MenuItem>Edit</MenuItem>
+              <MenuItem
+                onClick={async () => {
+                  await mutation.mutateAsync(+props.row.original.id);
+                  refetch();
+                }}
+              >
+                Delete
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        ),
+      },
     ],
-    []
+    [mutation, refetch]
   );
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable<any>({ columns, data }, useSortBy);
+
   return (
     <NavBar>
       <Box
@@ -106,48 +137,7 @@ export const List: React.FC = () => {
           New User
         </Button>
       </Box>
-      <Table {...getTableProps()}>
-        <Thead>
-          {headerGroups.map((headerGroup) => (
-            <Tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column: any) => (
-                <Th
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                  isNumeric={column.isNumeric}
-                >
-                  {column.render("Header")}
-                  <chakra.span pl="4">
-                    {column.isSorted ? (
-                      column.isSortedDesc ? (
-                        <TriangleDownIcon aria-label="sorted descending" />
-                      ) : (
-                        <TriangleUpIcon aria-label="sorted ascending" />
-                      )
-                    ) : null}
-                  </chakra.span>
-                </Th>
-              ))}
-            </Tr>
-          ))}
-        </Thead>
-        <Tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-            return (
-              <Tr {...row.getRowProps()}>
-                {row.cells.map((cell: any) => (
-                  <Td
-                    {...cell.getCellProps()}
-                    isNumeric={cell.column.isNumeric}
-                  >
-                    {cell.render("Cell")}
-                  </Td>
-                ))}
-              </Tr>
-            );
-          })}
-        </Tbody>
-      </Table>
+      <Table columns={columns} data={memoData} />
     </NavBar>
   );
 };
