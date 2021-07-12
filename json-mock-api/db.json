@@ -13,28 +13,6 @@
   ],
   "users": [
     {
-      "id": 1,
-      "name": "gabriel1",
-      "enabled": true,
-      "email": "gabriel@innova.com.br",
-      "password": "123456",
-      "createdAt": "2021-07-06T19:53:40.536-03:00",
-      "updateAt": "2021-07-06T19:53:40.536-03:00",
-      "deleteAt": null,
-      "roles": [
-        {
-          "id": 1,
-          "reference": "ADMINISTRATOR",
-          "name": "Administrator"
-        },
-        {
-          "id": 2,
-          "reference": "COMMERCIAL",
-          "name": "Comercial"
-        }
-      ]
-    },
-    {
       "id": 2,
       "name": "gabriel3",
       "enabled": false,

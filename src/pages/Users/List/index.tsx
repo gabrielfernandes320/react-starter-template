@@ -29,13 +29,15 @@ import UserHttpService from "../../../services/http/user-http";
 import { AxiosResponse } from "axios";
 import { IUser } from "../../../interfaces/user/user";
 import Table from "../../../components/data-display/Table";
-import luxon from "luxon";
 import { IRole } from "../../../interfaces/role/role";
+import TopInfoBar from "../../../components/navigation/TopInfoBar";
+import { usersNewRoutePath } from "../../../routes/config";
 
 export const List: React.FC = () => {
   const toast = useToast();
+  const history = useHistory();
 
-  const { data, isLoading, refetch } = useQuery(["users"], async () => {
+  const { data, refetch } = useQuery(["users"], async () => {
     const { data }: AxiosResponse = await UserHttpService.index();
     return data;
   });
@@ -88,8 +90,6 @@ export const List: React.FC = () => {
     }
   );
 
-  const history = useHistory();
-
   const memoData: IUser[] = React.useMemo(() => data, [data]);
 
   const columns: Column[] = React.useMemo(
@@ -125,7 +125,7 @@ export const List: React.FC = () => {
       },
       {
         Header: "Enabled",
-        accessor: "status",
+        accessor: "enabled",
         Cell: (props: any) => (
           <Switch
             size={"lg"}
@@ -170,51 +170,19 @@ export const List: React.FC = () => {
 
   return (
     <NavBar>
-      <Box
-        marginBottom={"10"}
-        borderBottomWidth={1}
-        boxShadow={"md"}
-        height={"fit-content"}
-        p={4}
-        pt={"2"}
-        pl={"6"}
-        display="flex"
-        alignContent={"center"}
-        alignItems="center"
-      >
-        <IconButton
-          onClick={() => {
-            history.goBack();
-          }}
-          mr="2"
-          aria-label="Back"
-          variant={"ghost"}
-          icon={<ArrowBackIcon w={7} h={7} />}
-        />
-
-        <Box>
-          <Text fontSize={"xl"} fontWeight="bold">
-            Users
-          </Text>
-          <Text fontSize={"md"}>All yours users in one place</Text>
-        </Box>
-
-        <Spacer />
-        <Box pr={6}>
+      <TopInfoBar
+        title={"Users"}
+        subtitle={"All your users in one place."}
+        Buttons={[
           <Button
-            leftIcon={
-              destroyMutation.isLoading || updateMutation.isLoading ? (
-                <Spinner size="sm" />
-              ) : (
-                <AddIcon />
-              )
-            }
+            onClick={() => history.push(usersNewRoutePath)}
+            leftIcon={<AddIcon />}
             alignContent={"flex-end"}
           >
             New User
-          </Button>
-        </Box>
-      </Box>
+          </Button>,
+        ]}
+      />
       <Table columns={columns} data={memoData ?? []} />
     </NavBar>
   );

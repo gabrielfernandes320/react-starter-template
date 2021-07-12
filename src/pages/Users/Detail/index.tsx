@@ -13,6 +13,19 @@ import {
   Switch,
   HStack,
   Tag,
+  Alert,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  Input,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Grid,
+  Select,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "react-query";
 import React from "react";
@@ -23,18 +36,15 @@ import UserHttpService from "../../../services/http/user-http";
 import { AxiosResponse } from "axios";
 import { IUser } from "../../../interfaces/user/user";
 import { IRole } from "../../../interfaces/role/role";
+import TopInfoBar from "../../../components/navigation/TopInfoBar";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { usersNewRoutePath } from "../../../routes/config";
 
 export const Detail: React.FC = () => {
   const toast = useToast();
-
-  const { data, isLoading, refetch } = useQuery(["users"], async () => {
-    const { data }: AxiosResponse = await UserHttpService.index();
-    return data;
-  });
-
   const mutation = useMutation(
-    async (id: number) => {
-      await UserHttpService.destroy(id);
+    async (data: IUser) => {
+      await UserHttpService.store(data);
     },
     {
       onError: (error: any) => {
@@ -55,146 +65,123 @@ export const Detail: React.FC = () => {
       },
     }
   );
-
-  const updateMutation = useMutation(
-    async (data: IUser) => {
-      await UserHttpService.update(data);
-    },
-    {
-      onError: (error: any) => {
-        toast({
-          title: "Error at updating the user.",
-          status: "error",
-          duration: 2000,
-          isClosable: true,
-        });
-      },
-      onSuccess: () => {
-        toast({
-          title: "Sucess at updating the user.",
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-        });
-      },
-    }
-  );
-
-  const history = useHistory();
-
-  const memoData: IUser[] = React.useMemo(() => data, [data]);
-
-  const columns: Column[] = React.useMemo(
-    () => [
-      {
-        Header: "Id",
-        accessor: "id",
-      },
-      {
-        Header: "Name",
-        accessor: "name",
-      },
-      {
-        Header: "Email",
-        accessor: "email",
-      },
-      {
-        Header: "Criado em",
-        accessor: "createdAt",
-      },
-      {
-        Header: "Roles",
-        accessor: "roles",
-        Cell: (props: any) => (
-          <HStack spacing={"2"}>
-            {props.row.original.roles.map((role: IRole) => (
-              <Tag size={"lg"} key={role.id} variant="solid" colorScheme="blue">
-                {role.name}
-              </Tag>
-            ))}
-          </HStack>
-        ),
-      },
-      {
-        Header: "Status",
-        accessor: "status",
-        Cell: (props: any) => (
-          <Switch
-            size={"lg"}
-            onChange={async () => {
-              const data: IUser = props.row.original;
-              data.enabled = !data.enabled;
-              await updateMutation.mutateAsync(data);
-              refetch();
-            }}
-            isChecked={props.row.original.enabled}
-          />
-        ),
-      },
-
-      {
-        Header: "Actions",
-        accessor: "action",
-        Cell: (props: any) => (
-          <Menu>
-            <MenuButton
-              as={IconButton}
-              variant={"ghost"}
-              icon={<HamburgerIcon />}
-            />
-            <MenuList>
-              <MenuItem>Edit</MenuItem>
-              <MenuItem
-                onClick={async () => {
-                  await mutation.mutateAsync(+props.row.original.id);
-                  refetch();
-                }}
-              >
-                Delete
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        ),
-      },
-    ],
-    [mutation, refetch, updateMutation]
-  );
+  const { data, isLoading, refetch } = useQuery(["users"], async () => {
+    const { data }: AxiosResponse = await UserHttpService.index();
+    return data;
+  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IUser>();
+  const onSubmit: SubmitHandler<IUser> = (data: IUser) => {
+    mutation.mutate(data);
+  };
 
   return (
     <NavBar>
-      <Box
-        marginBottom={"10"}
-        borderBottomWidth={1}
-        boxShadow={"md"}
-        height={"fit-content"}
-        p={4}
-        pt={"2"}
-        pl={"6"}
-        display="flex"
-        alignContent={"center"}
-        alignItems="center"
-      >
-        <IconButton
-          onClick={() => {
-            history.goBack();
-          }}
-          mr="2"
-          aria-label="Back"
-          variant={"ghost"}
-          icon={<ArrowBackIcon w={7} h={7} />}
-        />
-        <Box>
-          <Text fontSize={"xl"} fontWeight="bold">
-            Users
-          </Text>
-          <Text fontSize={"md"}>All yours users in one place</Text>
-        </Box>
-        <Spacer />
-        <Box pr={6}>
+      <TopInfoBar
+        title={"Users"}
+        subtitle={"All your users in one place."}
+        Buttons={[
           <Button leftIcon={<AddIcon />} alignContent={"flex-end"}>
             New User
-          </Button>
-        </Box>
+          </Button>,
+        ]}
+      />
+
+      <Box pr={"9"} pl={"9"}>
+        <Tabs>
+          <TabList>
+            <Tab>Personal data</Tab>
+            <Tab>Address</Tab>
+          </TabList>
+
+          <TabPanels>
+            <TabPanel>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+                  <FormControl isInvalid={!!errors.name}>
+                    <FormLabel>Name</FormLabel>
+                    <Input
+                      id="name"
+                      type="name"
+                      placeholder="Jonh Doe"
+                      {...register("name", {
+                        required: "This is required",
+                      })}
+                    />
+                    <FormErrorMessage>
+                      {errors.name && errors.name.message}
+                    </FormErrorMessage>
+                  </FormControl>
+
+                  <FormControl isInvalid={!!errors.email}>
+                    <FormLabel>Email</FormLabel>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="admin@admin"
+                      {...register("email", {
+                        required: "This is required",
+                      })}
+                    />
+                    <FormErrorMessage>
+                      {errors.email && errors.email.message}
+                    </FormErrorMessage>
+                  </FormControl>
+
+                  <FormControl isInvalid={!!errors.password}>
+                    <FormLabel>Password</FormLabel>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="admin"
+                      {...register("password", {
+                        required: "This is required",
+                      })}
+                    />
+                    <FormErrorMessage>
+                      {errors.password && errors.password.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl isInvalid={!!errors.password}>
+                    <FormLabel>Confirm your password</FormLabel>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="admin"
+                      {...register("password", {
+                        required: "This is required",
+                      })}
+                    />
+                    <FormErrorMessage>
+                      {errors.password && errors.password.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl isInvalid={!!errors.enabled}>
+                    <FormLabel>Enabled</FormLabel>
+                    <Switch
+                      id="enabled"
+                      type="enabled"
+                      {...register("enabled", {
+                        required: "This is required",
+                      })}
+                      size={"lg"}
+                    />
+
+                    <FormErrorMessage>
+                      {errors.enabled && errors.enabled.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                </Grid>
+              </form>
+            </TabPanel>
+            <TabPanel>
+              <p>two!</p>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Box>
     </NavBar>
   );
