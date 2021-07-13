@@ -1,7 +1,6 @@
-import { CheckIcon } from "@chakra-ui/icons";
+import RoleHttpService from "../../../../services/http/role-http";
 import {
   Box,
-  Switch,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -9,9 +8,18 @@ import {
   Grid,
   Select,
 } from "@chakra-ui/react";
+import { AxiosResponse } from "axios";
 import React, { useRef } from "react";
 import { useFormContext } from "react-hook-form";
+import { useQuery } from "react-query";
+import { IRole } from "../../../../interfaces/role/role";
+
 const PersonalData: React.FC = () => {
+  const { data: roles } = useQuery(["users"], async () => {
+    const { data }: AxiosResponse = await RoleHttpService.index();
+    return data;
+  });
+
   const {
     register,
     watch,
@@ -77,12 +85,10 @@ const PersonalData: React.FC = () => {
             <FormLabel>Confirm your password</FormLabel>
             <Input
               id="passwordConfirmation"
-              type="passwordConfirmation"
+              type="password"
               placeholder="admin"
               {...register("passwordConfirmation", {
                 validate: (value) => {
-                  console.log(value);
-
                   return (
                     value === password.current || "The passwords do not match"
                   );
@@ -94,45 +100,24 @@ const PersonalData: React.FC = () => {
                 errors.passwordConfirmation.message}
             </FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={!!errors.enabled}>
-            <FormLabel>Enabled</FormLabel>
-            <Switch
-              id="enabled"
-              type="enabled"
-              {...register("enabled", {
-                required: "This is required",
-              })}
-              size={"lg"}
-            />
-
-            <FormErrorMessage>
-              {errors.enabled && errors.enabled.message}
-            </FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={!!errors.roles}>
+          <FormControl isInvalid={!!errors.roleId}>
             <FormLabel>Role</FormLabel>
             <Select
-              id="roles"
-              type="roles"
-              {...register("roles", {
+              id="roleId"
+              type="roleId"
+              {...register("roleId", {
                 required: "This is required",
               })}
-              size={"lg"}
             >
-              <option
-                value="{
-      'id': 2,
-      'reference': 'COMMERCIAL',
-      'name': 'Comercial',
-      'enabled': true
-    }"
-              >
-                Comercial
-              </option>
+              {roles?.map((role: IRole) => (
+                <option key={role.id} value={role.id}>
+                  {role.name}
+                </option>
+              ))}
             </Select>
 
             <FormErrorMessage>
-              {errors.roles && errors.roles.message}
+              {errors.roleId && errors.roleId.message}
             </FormErrorMessage>
           </FormControl>
         </Grid>

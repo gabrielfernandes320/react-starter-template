@@ -3,36 +3,42 @@ import {
   Box,
   Button,
   useToast,
-  Switch,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  Grid,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "react-query";
-import React, { useRef } from "react";
+import React from "react";
 import NavBar from "../../../components/navigation/NavBar";
 import UserHttpService from "../../../services/http/user-http";
-import { AxiosResponse } from "axios";
 import { IUser } from "../../../interfaces/user/user";
 import TopInfoBar from "../../../components/navigation/TopInfoBar";
 import PersonalData from "../components/PersonalData";
 
-import {
-  useForm,
-  SubmitHandler,
-  useFormState,
-  FormProvider,
-  useFormContext,
-} from "react-hook-form";
+import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
+import { useHistory, useParams } from "react-router-dom";
+import { AxiosResponse } from "axios";
+import { usersRoutePath } from "../../../routes/config";
 export const Detail: React.FC = () => {
   const toast = useToast();
+
+  const history = useHistory();
+  const { id } = useParams<{ id: string }>();
+
+  useQuery("user", LoadUser, {
+    enabled: !!id,
+  });
+
+  async function LoadUser() {
+    const { data: user }: AxiosResponse = await UserHttpService.show(id);
+
+    methods.reset(user);
+
+    return user;
+  }
+
   const mutation = useMutation(
     async (data: IUser) => {
       await UserHttpService.store(data);
@@ -40,7 +46,7 @@ export const Detail: React.FC = () => {
     {
       onError: (error: any) => {
         toast({
-          title: "Error at deleting the user.",
+          title: "Error at saving the user.",
           status: "error",
           duration: 2000,
           isClosable: true,
@@ -48,18 +54,16 @@ export const Detail: React.FC = () => {
       },
       onSuccess: () => {
         toast({
-          title: "Sucess at deleting the user.",
+          title: "Sucess at saving the user.",
           status: "success",
           duration: 2000,
           isClosable: true,
         });
+        history.push(usersRoutePath);
       },
     }
   );
-  const { data, isLoading, refetch } = useQuery(["users"], async () => {
-    const { data }: AxiosResponse = await UserHttpService.index();
-    return data;
-  });
+
   const methods = useForm<IUser>();
   const onSubmit: SubmitHandler<IUser> = (data: IUser) => {
     mutation.mutate(data);
@@ -86,15 +90,11 @@ export const Detail: React.FC = () => {
         <Tabs>
           <TabList>
             <Tab>Personal data</Tab>
-            <Tab>Address</Tab>
           </TabList>
           <FormProvider {...methods}>
             <TabPanels>
               <TabPanel>
                 <PersonalData />
-              </TabPanel>
-              <TabPanel>
-                <p>two!</p>
               </TabPanel>
             </TabPanels>
           </FormProvider>

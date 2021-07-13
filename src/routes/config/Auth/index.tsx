@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import Login from "../../../pages/Auth/Login";
+import Login from "../../../pages/authentication/Login";
 
 export const loginRoutePath = "/login";
 export const signInRoutePath = "/signin";

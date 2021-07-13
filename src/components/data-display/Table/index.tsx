@@ -1,7 +1,6 @@
 import { useTable } from "react-table";
 import {
   Box,
-  chakra,
   Table as ChTable,
   Tbody,
   Td,
@@ -9,7 +8,6 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 export default function Table({ columns, data }: any) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({

@@ -1,14 +1,6 @@
+import { AddIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
-  ArrowBackIcon,
-  AddIcon,
-  HamburgerIcon,
-  SpinnerIcon,
-} from "@chakra-ui/icons";
-import {
-  Box,
-  Text,
   IconButton,
-  Spacer,
   Button,
   Menu,
   MenuButton,
@@ -16,25 +8,22 @@ import {
   MenuList,
   useToast,
   Switch,
-  HStack,
   Tag,
-  Spinner,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "react-query";
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Column } from "react-table";
 import NavBar from "../../../components/navigation/NavBar";
 import UserHttpService from "../../../services/http/user-http";
 import { AxiosResponse } from "axios";
 import { IUser } from "../../../interfaces/user/user";
 import Table from "../../../components/data-display/Table";
-import { IRole } from "../../../interfaces/role/role";
+
 import TopInfoBar from "../../../components/navigation/TopInfoBar";
-import { usersNewRoutePath } from "../../../routes/config";
+import { usersNewRoutePath, usersRoutePath } from "../../../routes/config";
 
 export const List: React.FC = () => {
-  console.log("aqui");
   const toast = useToast();
   const history = useHistory();
 
@@ -112,16 +101,17 @@ export const List: React.FC = () => {
         accessor: "createdAt",
       },
       {
-        Header: "Roles",
-        accessor: "roles",
+        Header: "Role",
+        accessor: "role",
         Cell: (props: any) => (
-          <HStack spacing={"2"}>
-            {props.row.original.roles?.map((role: IRole) => (
-              <Tag size={"lg"} key={role.id} variant="solid" colorScheme="blue">
-                {role.name}
-              </Tag>
-            ))}
-          </HStack>
+          <Tag
+            size={"lg"}
+            key={props.row.original.role?.id}
+            variant="solid"
+            colorScheme="blue"
+          >
+            {props.row.original.role?.name}
+          </Tag>
         ),
       },
       {
@@ -152,7 +142,12 @@ export const List: React.FC = () => {
               icon={<HamburgerIcon />}
             />
             <MenuList>
-              <MenuItem>Edit</MenuItem>
+              <MenuItem
+                as={Link}
+                to={`${usersRoutePath}/${props.row.original.id}/edit`}
+              >
+                Edit
+              </MenuItem>
               <MenuItem
                 onClick={async () => {
                   await destroyMutation.mutateAsync(+props.row.original.id);

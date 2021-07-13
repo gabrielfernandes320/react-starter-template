@@ -1,19 +1,13 @@
-import { ArrowBackIcon, AddIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  IconButton,
-  Spacer,
-  Button,
-  Text,
-  HStack,
-} from "@chakra-ui/react";
+import { ArrowBackIcon } from "@chakra-ui/icons";
+import { Box, IconButton, Spacer, Text, HStack } from "@chakra-ui/react";
 import React from "react";
+import { ReactNode } from "react";
 import { useHistory } from "react-router-dom";
 
 interface Props {
   title: string;
   subtitle: string;
-  Buttons: any[];
+  Buttons: ReactNode[];
 }
 
 const TopInfoBar: React.FC<Props> = ({ Buttons, subtitle, title }: Props) => {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch } from "react-router-dom";
-import Home from "../../../pages/Home";
+import Home from "../../../pages/home";
 import PrivateRoute from "../../components/PrivateRoute";
 
 export const homeRoutePath = "/home";

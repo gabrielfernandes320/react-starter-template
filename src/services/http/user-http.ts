@@ -1,5 +1,6 @@
 import { IUser } from "../../interfaces/user/user";
 import Request from "./request";
+import RoleHttpService from "./role-http";
 
 export default class UserHttpService {
   public static uri = "/users";
@@ -13,14 +14,29 @@ export default class UserHttpService {
   }
 
   public static show(id: string) {
-    return Request.get(`${this.uri}/${id}`);
+    return Request.get<IUser>(`${this.uri}/${id}`);
   }
 
-  public static store(data: IUser) {
-    return Request.post(this.uri, data);
+  public static async store(data: IUser) {
+    if (data.id) {
+      return this.update(data);
+    }
+
+    return Request.post<IUser>(this.uri, await this.formatData(data));
   }
 
   public static update(data: IUser) {
-    return Request.put(`${this.uri}/${data.id}`, data);
+    return Request.put<IUser>(`${this.uri}/${data.id}`, data);
+  }
+
+  //Only necessary because of the mocked API
+  private static async formatData(data: IUser) {
+    const { data: role } = await RoleHttpService.show(data.roleId);
+    data.enabled = true;
+    data.role = role;
+    data.createdAt = new Date();
+    data.updatedAt = new Date();
+
+    return data;
   }
 }

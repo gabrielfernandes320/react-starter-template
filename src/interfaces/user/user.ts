@@ -7,8 +7,9 @@ export interface IUser {
   email: string;
   password: string;
   passwordConfirmation: string;
+  roleId: string;
   createdAt: Date;
   updatedAt: Date;
   deletetAt?: Date;
-  roles: IRole[];
+  role: IRole;
 }

@@ -1,8 +1,7 @@
 import React from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ILogin } from "../../../interfaces/auth/login";
-//import AuthService from "../../../services/auth/auth";
 import useAuth from "../../../hooks/useAuth";
 import { useMutation } from "react-query";
 import Alert from "../../../components/feedback/Alert";
