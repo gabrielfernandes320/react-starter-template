@@ -8,7 +8,7 @@ interface Props extends RouteProps {
   component?: any;
   isPrivate?: any;
   redirectIfNotExact?: any;
-  path: any;
+  path?: any;
   redirectTo?: any;
 }
 

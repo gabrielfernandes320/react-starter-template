@@ -31,15 +31,19 @@ server.post("/auth/login", (req, res) => {
   }
 });
 
-// server.use((req, res, next) => {
-//   console.log(req);
-//   if (req != 2) {
-//     // add your authorization logic here
-//     next(); // continue to JSON Server router
-//   } else {
-//     res.sendStatus(401);
-//   }
+// server.post("/users", (req, res) => {
+//   console.log("aqui", req.body);
 // });
+
+// // server.use((req, res, next) => {
+// //   console.log(req);
+// //   if (req != 2) {
+// //     // add your authorization logic here
+// //     next(); // continue to JSON Server router
+// //   } else {
+// //     res.sendStatus(401);
+// //   }
+// // });
 server.use(router);
 server.listen(3000, () => {
   console.log("JSON Server is running");

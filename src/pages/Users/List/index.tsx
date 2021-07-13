@@ -34,6 +34,7 @@ import TopInfoBar from "../../../components/navigation/TopInfoBar";
 import { usersNewRoutePath } from "../../../routes/config";
 
 export const List: React.FC = () => {
+  console.log("aqui");
   const toast = useToast();
   const history = useHistory();
 
@@ -107,7 +108,7 @@ export const List: React.FC = () => {
         accessor: "email",
       },
       {
-        Header: "Criado em",
+        Header: "Created At",
         accessor: "createdAt",
       },
       {
@@ -115,7 +116,7 @@ export const List: React.FC = () => {
         accessor: "roles",
         Cell: (props: any) => (
           <HStack spacing={"2"}>
-            {props.row.original.roles.map((role: IRole) => (
+            {props.row.original.roles?.map((role: IRole) => (
               <Tag size={"lg"} key={role.id} variant="solid" colorScheme="blue">
                 {role.name}
               </Tag>

@@ -6,6 +6,7 @@ export interface IUser {
   enabled: boolean;
   email: string;
   password: string;
+  passwordConfirmation: string;
   createdAt: Date;
   updatedAt: Date;
   deletetAt?: Date;

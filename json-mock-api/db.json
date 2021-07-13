@@ -15,7 +15,7 @@
     {
       "id": 2,
       "name": "gabriel3",
-      "enabled": false,
+      "enabled": true,
       "email": "gabriel@innova.com.br",
       "password": "123456",
       "createdAt": "2021-07-06T19:53:40.536-03:00",
@@ -35,6 +35,58 @@
           "enabled": true
         }
       ]
+    },
+    {
+      "name": "asdasdasd",
+      "email": "asd@asd",
+      "password": "12345678",
+      "passwordConfirmation": "12345678",
+      "enabled": true,
+      "id": 3
+    },
+    {
+      "name": "asdasdasd",
+      "email": "asd@asd",
+      "password": "12345678",
+      "passwordConfirmation": "12345678",
+      "enabled": true,
+      "id": 4
+    },
+    {
+      "name": "asd",
+      "email": "asd@asd",
+      "password": "12345678",
+      "passwordConfirmation": "12345678",
+      "enabled": "{\r 'id': 2,\r 'reference': 'COMMERCIAL',\r 'name': 'Comercial',\r 'enabled': true\r }",
+      "roles": "{\r 'id': 2,\r 'reference': 'COMMERCIAL',\r 'name': 'Comercial',\r 'enabled': true\r }",
+      "id": 5
+    },
+    {
+      "name": "asd",
+      "email": "asd@asd",
+      "password": "12345678",
+      "passwordConfirmation": "12345678",
+      "enabled": "{\r 'id': 2,\r 'reference': 'COMMERCIAL',\r 'name': 'Comercial',\r 'enabled': true\r }",
+      "roles": "{\r 'id': 2,\r 'reference': 'COMMERCIAL',\r 'name': 'Comercial',\r 'enabled': true\r }",
+      "id": 6
+    },
+    {
+      "name": "asd",
+      "email": "asd@asd",
+      "password": "12345678",
+      "passwordConfirmation": "12345678",
+      "enabled": "{\r 'id': 2,\r 'reference': 'COMMERCIAL',\r 'name': 'Comercial',\r 'enabled': true\r }",
+      "roles": "{\r 'id': 2,\r 'reference': 'COMMERCIAL',\r 'name': 'Comercial',\r 'enabled': true\r }",
+      "id": 7
+    },
+    {
+      "name": "asd",
+      "email": "asd@asd",
+      "password": "12345678",
+      "passwordConfirmation": "12345678",
+      "enabled": true,
+      "roles": "{\r 'id': 2,\r 'reference': 'COMMERCIAL',\r 'name': 'Comercial',\r 'enabled': true\r }",
+      "id": 8
     }
   ],
   "comments": [
@@ -51,6 +103,20 @@
     "id": 1,
     "name": "gabriel"
   },
+  "roles": [
+    {
+      "id": 1,
+      "reference": "ADMINISTRATOR",
+      "name": "Administrator",
+      "enabled": true
+    },
+    {
+      "id": 2,
+      "reference": "COMMERCIAL",
+      "name": "Comercial",
+      "enabled": true
+    }
+  ],
   "validate-token": {
     "isValid": true
   }
