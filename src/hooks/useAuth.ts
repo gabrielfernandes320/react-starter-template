@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { loginRoutePath } from "../routes/config";
 import { useLocalStorageValue } from "@mantine/hooks";
 import { useEffect, useState } from "react";
+import { useToast } from "@chakra-ui/react";
 
 const useAuth = () => {
   const TOKEN_KEY = "@innova-token";
@@ -17,6 +18,7 @@ const useAuth = () => {
   const [user, setUser] = useState({});
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const toast = useToast();
 
   useEffect(() => {
     const check = async () => {
@@ -40,6 +42,12 @@ const useAuth = () => {
     const { data } = loginResponse;
 
     if (!data) {
+      toast({
+        title: "General Error.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
     }
 
     Request.setHeader(AUTH_HEADER_KEY, data);

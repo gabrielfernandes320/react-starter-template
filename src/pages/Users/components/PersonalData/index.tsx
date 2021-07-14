@@ -31,7 +31,7 @@ const PersonalData: React.FC = () => {
 
   return (
     <Box>
-      <Box pr={"9"} pl={"9"}>
+      <Box>
         <Grid templateColumns="repeat(2, 1fr)" gap={6}>
           <FormControl isInvalid={!!errors.name}>
             <FormLabel>Name</FormLabel>

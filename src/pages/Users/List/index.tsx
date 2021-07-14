@@ -22,6 +22,7 @@ import Table from "../../../components/data-display/Table";
 
 import TopInfoBar from "../../../components/navigation/TopInfoBar";
 import { usersNewRoutePath, usersRoutePath } from "../../../routes/config";
+import { DateTime } from "luxon";
 
 export const List: React.FC = () => {
   const toast = useToast();
@@ -98,7 +99,8 @@ export const List: React.FC = () => {
       },
       {
         Header: "Created At",
-        accessor: "createdAt",
+        accessor: ({ createdAt }: any) =>
+          DateTime.fromISO(createdAt).toLocaleString(),
       },
       {
         Header: "Role",

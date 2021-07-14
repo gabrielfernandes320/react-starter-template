@@ -8,6 +8,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Spinner,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "react-query";
 import React from "react";
@@ -78,7 +79,7 @@ export const Detail: React.FC = () => {
           <Button
             onClick={methods.handleSubmit(onSubmit)}
             type={"submit"}
-            leftIcon={<CheckIcon />}
+            leftIcon={mutation.isLoading ? <Spinner /> : <CheckIcon />}
             alignContent={"flex-end"}
           >
             Save

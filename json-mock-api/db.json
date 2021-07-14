@@ -13,23 +13,8 @@
   ],
   "users": [
     {
-      "name": "asd",
-      "email": "asd@asd",
-      "password": "12345678",
-      "passwordConfirmation": "12345678",
-      "roleId": "2",
-      "enabled": true,
-      "role": {
-        "id": 1,
-        "reference": "ADMINISTRATOR",
-        "name": "Administrator",
-        "enabled": true
-      },
-      "id": 5
-    },
-    {
-      "name": "asdassdddddddd",
-      "email": "asd@asd",
+      "name": "Gabriel Fernandes",
+      "email": "gabriel.fernandes@innovaconnect.com.br",
       "password": "12345678",
       "passwordConfirmation": "12345678",
       "roleId": "2",
@@ -43,6 +28,40 @@
       "createdAt": "2021-07-13T15:03:20.514Z",
       "updatedAt": "2021-07-13T15:03:20.514Z",
       "id": 7
+    },
+    {
+      "name": "12345678",
+      "email": "12345678@12345678",
+      "password": "12345678",
+      "passwordConfirmation": "12345678",
+      "roleId": "2",
+      "enabled": true,
+      "role": {
+        "id": 2,
+        "reference": "COMMERCIAL",
+        "name": "Comercial",
+        "enabled": true
+      },
+      "createdAt": "2021-07-13T20:30:26.984-03:00",
+      "updatedAt": "2021-07-13T20:30:26.984-03:00",
+      "id": 8
+    },
+    {
+      "name": "12345678",
+      "email": "12345678@12345678",
+      "password": "12345678",
+      "passwordConfirmation": "12345678",
+      "roleId": "2",
+      "enabled": true,
+      "role": {
+        "id": 2,
+        "reference": "COMMERCIAL",
+        "name": "Comercial",
+        "enabled": true
+      },
+      "createdAt": "2021-07-13T20:34:26.696-03:00",
+      "updatedAt": "2021-07-13T20:34:26.696-03:00",
+      "id": 9
     }
   ],
   "comments": [

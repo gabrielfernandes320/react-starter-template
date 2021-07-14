@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { IUser } from "../../interfaces/user/user";
 import Request from "./request";
 import RoleHttpService from "./role-http";
@@ -32,10 +33,11 @@ export default class UserHttpService {
   //Only necessary because of the mocked API
   private static async formatData(data: IUser) {
     const { data: role } = await RoleHttpService.show(data.roleId);
+    console.log(DateTime.now());
     data.enabled = true;
     data.role = role;
-    data.createdAt = new Date();
-    data.updatedAt = new Date();
+    data.createdAt = DateTime.now();
+    data.updatedAt = DateTime.now();
 
     return data;
   }

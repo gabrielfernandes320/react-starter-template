@@ -15,32 +15,56 @@ import {
   useColorModeValue,
   Stack,
   Image,
+  Center,
+  VStack,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import innova from "../../../assets/images/Innova_site.png";
 import { Link as ReactLink } from "react-router-dom";
 import ThemeToggler from "../../Theme/ThemeToggler";
 import useAuth from "../../../hooks/useAuth";
+import { homeRoutePath, usersRoutePath } from "../../../routes/config";
+import { HiHome } from "react-icons/hi";
+import { FaUser } from "react-icons/fa";
+import { useState } from "react";
 
-const Links = [{ name: "Users", to: "users" }];
+const Links = [
+  { name: "Home", to: homeRoutePath, icon: <HiHome /> },
+  { name: "Users", to: usersRoutePath, icon: <FaUser /> },
+];
 
-const NavLink = ({ children, to }: { children: ReactNode; to: string }) => (
-  <Link
-    as={ReactLink}
-    to={to}
-    height={"full"}
-    px={2}
-    py={1}
-    bg={useColorModeValue("gray.200", "gray.600")}
-    rounded={"md"}
-    _hover={{
-      textDecoration: "none",
-      bg: useColorModeValue("gray.300", "gray.700"),
-    }}
-  >
-    {children}
-  </Link>
-);
+const NavLink = ({
+  children,
+  to,
+  icon,
+}: {
+  children: ReactNode;
+  to: string;
+  icon: any;
+}) => {
+  return (
+    <Link
+      as={ReactLink}
+      to={to}
+      height={"full"}
+      px={2}
+      py={1}
+      bg={useColorModeValue("gray.100", "gray.900")}
+      rounded={"md"}
+      _hover={{
+        textDecoration: "none",
+        bg: useColorModeValue("gray.300", "gray.700"),
+      }}
+    >
+      <>
+        <VStack>
+          {icon}
+          <Box>{children}</Box>
+        </VStack>
+      </>
+    </Link>
+  );
+};
 
 export default function Navbar({ children }: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -67,7 +91,7 @@ export default function Navbar({ children }: any) {
               display={{ base: "none", md: "flex" }}
             >
               {Links.map((link) => (
-                <NavLink to={link.to} key={link.to}>
+                <NavLink to={link.to} key={link.to} icon={link.icon}>
                   {link.name}
                 </NavLink>
               ))}
@@ -100,7 +124,7 @@ export default function Navbar({ children }: any) {
           <Box pb={4} display={{ md: "none" }}>
             <Stack as={"nav"} spacing={4}>
               {Links.map((link) => (
-                <NavLink to={link.to} key={link.to}>
+                <NavLink to={link.to} key={link.to} icon={link.icon}>
                   {link.name}
                 </NavLink>
               ))}

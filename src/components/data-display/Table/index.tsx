@@ -16,7 +16,7 @@ export default function Table({ columns, data }: any) {
     });
 
   return (
-    <Box p={4} pt={"2"} pl={"6"}>
+    <Box p={4} pt={"2"} pl={"6"} pr={"12"}>
       <ChTable {...getTableProps()}>
         <Thead>
           {headerGroups.map((headerGroup) => (

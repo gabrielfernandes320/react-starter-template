@@ -56,7 +56,6 @@ const Login: React.FC = () => {
           <Box
             textAlign="left"
             p={8}
-            //maxWidth="500px"
             borderWidth={1}
             borderRadius={8}
             boxShadow="xl"

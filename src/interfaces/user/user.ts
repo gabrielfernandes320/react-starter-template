@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { IRole } from "../role/role";
 
 export interface IUser {
@@ -8,8 +9,8 @@ export interface IUser {
   password: string;
   passwordConfirmation: string;
   roleId: string;
-  createdAt: Date;
-  updatedAt: Date;
-  deletetAt?: Date;
+  createdAt: DateTime;
+  updatedAt: DateTime;
+  deletetAt?: DateTime;
   role: IRole;
 }
