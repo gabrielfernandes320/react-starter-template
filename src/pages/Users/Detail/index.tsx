@@ -24,7 +24,7 @@ import { AxiosResponse } from "axios";
 import { usersRoutePath } from "../../../routes/config";
 export const Detail: React.FC = () => {
     const toast = useToast();
-
+    const methods = useForm<IUser>();
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
 
@@ -67,7 +67,6 @@ export const Detail: React.FC = () => {
         }
     );
 
-    const methods = useForm<IUser>();
     const onSubmit: SubmitHandler<IUser> = (data: IUser) => {
         console.log(data);
         mutation.mutate(data);

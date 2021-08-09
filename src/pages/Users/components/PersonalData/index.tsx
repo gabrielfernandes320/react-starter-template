@@ -25,6 +25,8 @@ const PersonalData: React.FC = () => {
     const {
         register,
         watch,
+        getValues,
+        setValue,
         formState: { errors },
     } = useFormContext<IUser>();
 
@@ -130,7 +132,8 @@ const PersonalData: React.FC = () => {
                         <Switch
                             size={"lg"}
                             id="enabled"
-                            {...register("enabled" as any)}
+                            isChecked={getValues().enabled}
+                            {...register("enabled")}
                         />
 
                         <FormErrorMessage>
