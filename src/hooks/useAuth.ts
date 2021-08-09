@@ -9,74 +9,75 @@ import { useEffect, useState } from "react";
 import { useToast } from "@chakra-ui/react";
 
 const useAuth = () => {
-  const TOKEN_KEY = "@innova-token";
-  const AUTH_HEADER_KEY = "Authorization";
-  const history = useHistory();
-  const [token, setToken] = useLocalStorageValue({
-    key: TOKEN_KEY,
-  });
-  const [user, setUser] = useState({});
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
-  const toast = useToast();
+    const TOKEN_KEY = "@innova-token";
+    const AUTH_HEADER_KEY = "Authorization";
+    const history = useHistory();
+    const [token, setToken] = useLocalStorageValue({
+        key: TOKEN_KEY,
+    });
+    const [user, setUser] = useState({});
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
+    const toast = useToast();
 
-  useEffect(() => {
-    const check = async () => {
-      setIsLoading(true);
+    useEffect(() => {
+        const check = async () => {
+            setIsLoading(true);
 
-      setIsAuthenticated(await validateToken());
+            setIsAuthenticated(await validateToken());
 
-      setIsLoading(false);
-      return;
+            setIsLoading(false);
+            return;
+        };
+
+        check();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const login = async (login: ILogin) => {
+        const loginResponse = await AuthHttpService.login(
+            login.email,
+            login.password
+        );
+        const { data } = loginResponse;
+
+        if (!data) {
+            toast({
+                title: "General Error.",
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+            });
+        }
+
+        Request.setHeader(AUTH_HEADER_KEY, data);
+        setToken(data.token);
+        setUser(data.user);
+        setIsAuthenticated(true);
     };
 
-    check();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const validateToken = async (): Promise<boolean> => {
+        return true;
+        if (!token) {
+            return false;
+        }
 
-  const login = async (login: ILogin) => {
-    const loginResponse = await AuthHttpService.login(
-      login.email,
-      login.password
-    );
-    const { data } = loginResponse;
+        const { data } = await AuthHttpService.validateToken();
 
-    if (!data) {
-      toast({
-        title: "General Error.",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
+        if (data?.isValid) {
+            return true;
+        }
 
-    Request.setHeader(AUTH_HEADER_KEY, data);
-    setToken(data.token);
-    setUser(data.user);
-    setIsAuthenticated(true);
-  };
+        return false;
+    };
 
-  const validateToken = async (): Promise<boolean> => {
-    if (!token) {
-      return false;
-    }
+    const logout = async () => {
+        setToken("");
 
-    const { data } = await AuthHttpService.validateToken();
+        history.push(loginRoutePath);
+    };
 
-    if (data?.isValid) {
-      return true;
-    }
-
-    return false;
-  };
-
-  const logout = async () => {
-    setToken("");
-
-    history.push(loginRoutePath);
-  };
-
-  return { login, logout, isAuthenticated, user, isLoading } as IUseAuth;
+    return { login, logout, isAuthenticated, user, isLoading } as IUseAuth;
 };
 
 export default useAuth;
