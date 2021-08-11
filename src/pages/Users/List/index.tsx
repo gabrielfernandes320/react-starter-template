@@ -133,7 +133,7 @@ export const List: React.FC = () => {
                         size={"lg"}
                         onChange={async () => {
                             const data: IUser = props.row.original;
-                            console.log(data);
+
                             data.enabled = !data.enabled;
                             await updateMutation.mutateAsync(data);
                             refetch();

@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { AxiosResponse } from "axios";
 import React, { useRef } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import { useQuery } from "react-query";
 import { IRole } from "../../../../interfaces/role/role";
 import { IUser } from "../../../../interfaces/user/user";
@@ -25,8 +25,8 @@ const PersonalData: React.FC = () => {
     const {
         register,
         watch,
+        control,
         getValues,
-        setValue,
         formState: { errors },
     } = useFormContext<IUser>();
 
@@ -73,14 +73,21 @@ const PersonalData: React.FC = () => {
                             id="password"
                             type="password"
                             placeholder="admin"
-                            {...register("password", {
-                                required: "This is required",
-                                minLength: {
-                                    value: 8,
-                                    message:
-                                        "Password must have at least 8 characters",
-                                },
-                            })}
+                            {...register(
+                                "password",
+                                getValues().id &&
+                                    !getValues().password &&
+                                    !getValues().passwordConfirmation
+                                    ? {}
+                                    : {
+                                          required: "This is required",
+                                          minLength: {
+                                              value: 6,
+                                              message:
+                                                  "Password must have at least 6 characters",
+                                          },
+                                      }
+                            )}
                         />
                         <FormErrorMessage>
                             {errors.password && errors.password.message}
@@ -92,14 +99,21 @@ const PersonalData: React.FC = () => {
                             id="passwordConfirmation"
                             type="password"
                             placeholder="admin"
-                            {...register("passwordConfirmation", {
-                                validate: (value) => {
-                                    return (
-                                        value === password.current ||
-                                        "The passwords do not match"
-                                    );
-                                },
-                            })}
+                            {...register(
+                                "passwordConfirmation",
+                                getValues().id &&
+                                    !getValues().password &&
+                                    !getValues().passwordConfirmation
+                                    ? {}
+                                    : {
+                                          validate: (value) => {
+                                              return (
+                                                  value === password.current ||
+                                                  "The passwords do not match"
+                                              );
+                                          },
+                                      }
+                            )}
                         />
                         <FormErrorMessage>
                             {errors.passwordConfirmation &&
@@ -109,11 +123,10 @@ const PersonalData: React.FC = () => {
                     <FormControl isInvalid={!!errors.roles}>
                         <FormLabel>Role</FormLabel>
                         <Select
+                            placeholder="Select option"
                             id="roles"
-                            type="roles"
                             {...register("roles" as any, {
                                 required: "This is required",
-                                setValueAs: (id: number) => [{ id }],
                             })}
                         >
                             {roles?.map((role: IRole) => (
@@ -129,11 +142,18 @@ const PersonalData: React.FC = () => {
                     </FormControl>
                     <FormControl isInvalid={!!errors.enabled}>
                         <FormLabel>Enabled</FormLabel>
-                        <Switch
-                            size={"lg"}
-                            id="enabled"
-                            isChecked={getValues().enabled}
-                            {...register("enabled")}
+                        <Controller
+                            control={control}
+                            name="enabled"
+                            render={({ field }) => (
+                                <Switch
+                                    size={"lg"}
+                                    onChange={(e) =>
+                                        field.onChange(e.target.checked)
+                                    }
+                                    isChecked={field.value}
+                                />
+                            )}
                         />
 
                         <FormErrorMessage>
