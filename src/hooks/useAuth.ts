@@ -21,24 +21,29 @@ const useAuth = () => {
     const toast = useToast();
 
     const validateToken = useCallback(async () => {
-        if (!token) {
-            return false;
-        }
+        return true;
+        // if (!token) {
+        //     return false;
+        // }
 
-        const { data } = await AuthHttpService.validateToken();
+        // const { data } = await AuthHttpService.validateToken();
 
-        if (data?.isValid) {
-            return true;
-        }
+        // if (data?.isValid) {
+        //     return true;
+        // }
 
-        return false;
+        // return false;
     }, [token]);
 
     useEffect(() => {
         const check = async () => {
             setIsLoading(true);
 
-            setIsAuthenticated(await validateToken());
+            const { data } = await AuthHttpService.getAuthenticatedUser();
+
+            console.log(data);
+
+            setIsAuthenticated(data ? true : false);
 
             setIsLoading(false);
             return;
@@ -48,10 +53,7 @@ const useAuth = () => {
     }, [validateToken]);
 
     const login = async (login: ILogin) => {
-        const loginResponse = await AuthHttpService.login(
-            login.email,
-            login.password
-        );
+        const loginResponse = await AuthHttpService.login(login);
         const { data } = loginResponse;
 
         if (!data) {
@@ -62,6 +64,8 @@ const useAuth = () => {
                 isClosable: true,
             });
         }
+
+        console.log(data);
 
         Request.setHeader(AUTH_HEADER_KEY, data);
         setToken(data.token);

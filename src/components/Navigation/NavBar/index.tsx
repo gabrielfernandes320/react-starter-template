@@ -94,8 +94,8 @@ export default function Navbar({ children }: any) {
                         >
                             {Links.map((link) => (
                                 <NavLink
-                                    to={link.to}
-                                    key={link.to}
+                                    to={link.to?.replace("/", "")}
+                                    key={link.to?.replace("/", "")}
                                     icon={link.icon}
                                 >
                                     {link.name}

@@ -1,26 +1,24 @@
+import { ILogin } from "../../interfaces/auth/login";
 import Request from "./request";
 
 export default class AuthHttpService {
-  public static login(email: string, password: string) {
-    return Request.post("/auth/login", {
-      email,
-      password,
-    });
-  }
+    public static uri = "/auth";
 
-  public static forgotPassword(email: string) {
-    return Request.post("/auth/send-password-reset-request", { email });
-  }
+    public static login(login: ILogin) {
+        return Request.post(`${this.uri}/login`, login);
+    }
 
-  public static resetPassword(data: Object) {
-    return Request.post("/auth/reset-password", data);
-  }
+    public static forgotPassword(email: string) {
+        return Request.post(`${this.uri}/send-password-reset-request`, {
+            email,
+        });
+    }
 
-  public static getAuthenticatedUser() {
-    return Request.get("/user");
-  }
+    public static resetPassword(data: Object) {
+        return Request.post(`${this.uri}/reset-password`, data);
+    }
 
-  public static validateToken() {
-    return Request.get("/validate-token");
-  }
+    public static getAuthenticatedUser() {
+        return Request.get(`${this.uri}/user`);
+    }
 }

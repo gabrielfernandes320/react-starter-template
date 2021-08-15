@@ -136,7 +136,7 @@ export const List: React.FC = () => {
 
                             data.enabled = !data.enabled;
                             await updateMutation.mutateAsync(data);
-                            refetch();
+                            await refetch();
                         }}
                         isChecked={props.row.original.enabled}
                     />

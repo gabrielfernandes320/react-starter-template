@@ -7,12 +7,9 @@ import PrivateRoute from "../../components/PrivateRoute";
 export const homeRoutePath = "/home";
 
 export const HomeRoutesComponent: React.FC = () => (
-  <Switch>
-    <PrivateRoute path={homeRoutePath} component={Home} exact />
+    <Switch>
+        <PrivateRoute path={homeRoutePath} component={Home} exact />
 
-
-    <Button rounded={"xl"} mx={5} fontSize={"lg"} />
-    
-    
-  </Switch>
+        <Button rounded={"xl"} mx={5} fontSize={"lg"} />
+    </Switch>
 );

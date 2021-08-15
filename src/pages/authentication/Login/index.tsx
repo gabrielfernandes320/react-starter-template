@@ -62,13 +62,7 @@ const Login: React.FC = () => {
                             <Heading>Login</Heading>
                         </Box>
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <FormControl mt={6} isInvalid={!!errors.email}>
-                                <Alert
-                                    status={"info"}
-                                    message={
-                                        "email: admin@admin / password: admin"
-                                    }
-                                />
+                            <FormControl mt={6} isInvalid={!!errors.login}>
                                 {mutation.isError && (
                                     <Alert
                                         status={"error"}
@@ -86,12 +80,12 @@ const Login: React.FC = () => {
                                     id="email"
                                     type="email"
                                     placeholder="admin@admin"
-                                    {...register("email", {
+                                    {...register("login", {
                                         required: "This is required",
                                     })}
                                 />
                                 <FormErrorMessage>
-                                    {errors.email && errors.email.message}
+                                    {errors.login && errors.login.message}
                                 </FormErrorMessage>
                             </FormControl>
 

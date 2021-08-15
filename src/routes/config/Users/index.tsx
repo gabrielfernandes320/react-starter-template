@@ -8,9 +8,9 @@ export const usersDetailRoutePath = "/users/:id/edit";
 export const usersNewRoutePath = "/users/new";
 
 export const UsersRoutesComponent: React.FC = () => (
-  <Switch>
-    <PrivateRoute path={usersRoutePath} component={List} exact />
-    <PrivateRoute path={usersNewRoutePath} component={Detail} exact />
-    <PrivateRoute path={usersDetailRoutePath} component={Detail} exact />
-  </Switch>
+    <Switch>
+        <PrivateRoute path={usersRoutePath} component={List} exact />
+        <PrivateRoute path={usersNewRoutePath} component={Detail} exact />
+        <PrivateRoute path={usersDetailRoutePath} component={Detail} exact />
+    </Switch>
 );
