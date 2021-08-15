@@ -5,7 +5,7 @@ import Request from "../services/http/request";
 import { useHistory } from "react-router-dom";
 import { loginRoutePath } from "../routes/config";
 import { useLocalStorageValue } from "@mantine/hooks";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useToast } from "@chakra-ui/react";
 
 const useAuth = () => {
@@ -20,6 +20,20 @@ const useAuth = () => {
     const [isLoading, setIsLoading] = useState(true);
     const toast = useToast();
 
+    const validateToken = useCallback(async () => {
+        if (!token) {
+            return false;
+        }
+
+        const { data } = await AuthHttpService.validateToken();
+
+        if (data?.isValid) {
+            return true;
+        }
+
+        return false;
+    }, [token]);
+
     useEffect(() => {
         const check = async () => {
             setIsLoading(true);
@@ -31,8 +45,7 @@ const useAuth = () => {
         };
 
         check();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [validateToken]);
 
     const login = async (login: ILogin) => {
         const loginResponse = await AuthHttpService.login(
@@ -54,21 +67,6 @@ const useAuth = () => {
         setToken(data.token);
         setUser(data.user);
         setIsAuthenticated(true);
-    };
-
-    const validateToken = async (): Promise<boolean> => {
-        return true;
-        if (!token) {
-            return false;
-        }
-
-        const { data } = await AuthHttpService.validateToken();
-
-        if (data?.isValid) {
-            return true;
-        }
-
-        return false;
     };
 
     const logout = async () => {
