@@ -26,8 +26,8 @@ import { HiHome } from "react-icons/hi";
 import { FaUser } from "react-icons/fa";
 
 const Links = [
-    { name: "Home", to: "home", icon: <HiHome /> },
-    { name: "Users", to: "users", icon: <FaUser /> },
+    { name: "Home", to: "/home", icon: <HiHome /> },
+    { name: "Users", to: "/users", icon: <FaUser /> },
 ];
 
 const NavLink = ({
@@ -93,8 +93,8 @@ export default function Navbar({ children }: any) {
                         >
                             {Links.map((link) => (
                                 <NavLink
-                                    to={link.to?.replace("/", "")}
-                                    key={link.to?.replace("/", "")}
+                                    to={link.to}
+                                    key={link.to}
                                     icon={link.icon}
                                 >
                                     {link.name}

@@ -1,8 +1,7 @@
 import React from "react";
-import NavBar from "../../components/navigation/NavBar";
 
 const Home: React.FC = () => {
-  return <NavBar></NavBar>;
+    return <></>;
 };
 
 export default Home;

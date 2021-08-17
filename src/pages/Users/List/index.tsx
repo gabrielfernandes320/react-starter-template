@@ -179,7 +179,7 @@ export const List: React.FC = () => {
     );
 
     return (
-        <NavBar>
+        <>
             <TopInfoBar
                 title={"Users"}
                 subtitle={"All your users in one place."}
@@ -194,6 +194,6 @@ export const List: React.FC = () => {
                 ]}
             />
             <Table columns={columns} data={memoData ?? []} />
-        </NavBar>
+        </>
     );
 };

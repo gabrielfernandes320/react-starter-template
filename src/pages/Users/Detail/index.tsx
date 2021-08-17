@@ -75,7 +75,7 @@ export const Detail: React.FC = () => {
     };
 
     return (
-        <NavBar>
+        <>
             <TopInfoBar
                 title={"Users"}
                 subtitle={"All your users in one place."}
@@ -107,6 +107,6 @@ export const Detail: React.FC = () => {
                     </FormProvider>
                 </Tabs>
             </Box>
-        </NavBar>
+        </>
     );
 };
