@@ -21,4 +21,8 @@ export default class AuthHttpService {
     public static getAuthenticatedUser() {
         return Request.get(`${this.uri}/user`);
     }
+
+    public static logout() {
+        return Request.post(`${this.uri}/logout`);
+    }
 }

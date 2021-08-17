@@ -17,7 +17,6 @@ import UserHttpService from "../../../services/http/user-http";
 import { IUser } from "../../../interfaces/user/user";
 import TopInfoBar from "../../../components/navigation/TopInfoBar";
 import PersonalData from "../components/PersonalData";
-
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { useHistory, useParams } from "react-router-dom";
 import { AxiosResponse } from "axios";
@@ -35,8 +34,9 @@ export const Detail: React.FC = () => {
     });
 
     async function LoadUser() {
-        const { data: user }: AxiosResponse = await UserHttpService.show(id);
-        console.log(user);
+        const { data: user }: AxiosResponse<IUser> = await UserHttpService.show(
+            id
+        );
 
         methods.reset(user);
 

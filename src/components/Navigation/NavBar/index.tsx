@@ -22,13 +22,12 @@ import innova from "../../../assets/images/Innova_site.png";
 import { Link as ReactLink } from "react-router-dom";
 import ThemeToggler from "../../Theme/ThemeToggler";
 import useAuth from "../../../hooks/useAuth";
-import { homeRoutePath, usersRoutePath } from "../../../routes/config";
 import { HiHome } from "react-icons/hi";
 import { FaUser } from "react-icons/fa";
 
 const Links = [
-    { name: "Home", to: homeRoutePath, icon: <HiHome /> },
-    { name: "Users", to: usersRoutePath, icon: <FaUser /> },
+    { name: "Home", to: "home", icon: <HiHome /> },
+    { name: "Users", to: "users", icon: <FaUser /> },
 ];
 
 const NavLink = ({

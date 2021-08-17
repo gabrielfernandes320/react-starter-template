@@ -6,8 +6,8 @@ export interface IUser {
     name: string;
     enabled: boolean;
     email: string;
-    password: string;
-    passwordConfirmation: string;
+    password?: string;
+    passwordConfirmation?: string;
     createdAt: DateTime;
     updatedAt: DateTime;
     deletetAt?: DateTime;

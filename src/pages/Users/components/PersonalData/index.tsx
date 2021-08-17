@@ -30,7 +30,7 @@ const PersonalData: React.FC = () => {
         formState: { errors },
     } = useFormContext<IUser>();
 
-    const password = useRef({});
+    const password = useRef("" as any);
     password.current = watch("password", "");
 
     return (

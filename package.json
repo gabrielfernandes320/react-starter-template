@@ -25,6 +25,8 @@
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
     "axios": "^0.21.1",
+    "class-transformer": "^0.4.0",
+    "class-validator": "^0.13.1",
     "emotion-theming": "10.0.27",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-import": "2.22.1",
