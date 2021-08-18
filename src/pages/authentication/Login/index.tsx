@@ -79,7 +79,7 @@ const Login: React.FC = () => {
                                 <Input
                                     id="email"
                                     type="email"
-                                    placeholder="admin@admin"
+                                    placeholder="your@email.com"
                                     {...register("login", {
                                         required: "This is required",
                                     })}

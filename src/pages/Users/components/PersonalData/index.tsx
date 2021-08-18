@@ -57,7 +57,7 @@ const PersonalData: React.FC = () => {
                         <Input
                             id="email"
                             type="email"
-                            placeholder="admin@admin"
+                            placeholder="your@email.com"
                             {...register("email", {
                                 required: "This is required",
                             })}
@@ -72,7 +72,7 @@ const PersonalData: React.FC = () => {
                         <Input
                             id="password"
                             type="password"
-                            placeholder="admin"
+                            placeholder="Your password"
                             {...register(
                                 "password",
                                 getValues().id &&
@@ -98,7 +98,7 @@ const PersonalData: React.FC = () => {
                         <Input
                             id="passwordConfirmation"
                             type="password"
-                            placeholder="admin"
+                            placeholder="Your password again"
                             {...register(
                                 "passwordConfirmation",
                                 getValues().id &&
@@ -127,6 +127,7 @@ const PersonalData: React.FC = () => {
                             id="roles"
                             {...register("roles" as any, {
                                 required: "This is required",
+                                setValueAs: (value) => [{ id: value }],
                             })}
                         >
                             {roles?.map((role: IRole) => (

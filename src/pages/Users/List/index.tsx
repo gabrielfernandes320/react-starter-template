@@ -14,7 +14,6 @@ import { useMutation, useQuery } from "react-query";
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Column } from "react-table";
-import NavBar from "../../../components/navigation/NavBar";
 import UserHttpService from "../../../services/http/user-http";
 import { AxiosResponse } from "axios";
 import { IUser } from "../../../interfaces/user/user";

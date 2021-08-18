@@ -34,10 +34,9 @@ export const Detail: React.FC = () => {
     });
 
     async function LoadUser() {
-        const { data: user }: AxiosResponse<IUser> = await UserHttpService.show(
-            id
-        );
+        const { data: user }: AxiosResponse = await UserHttpService.show(id);
 
+        user.roles = user.roles[0].id;
         methods.reset(user);
 
         return user;
@@ -71,6 +70,7 @@ export const Detail: React.FC = () => {
     );
 
     const onSubmit: SubmitHandler<IUser> = (data: IUser) => {
+        console.log(data);
         mutation.mutate(data);
     };
 
