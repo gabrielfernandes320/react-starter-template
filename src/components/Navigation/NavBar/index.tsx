@@ -24,11 +24,17 @@ import ThemeToggler from "../../Theme/ThemeToggler";
 import useAuth from "../../../hooks/useAuth";
 import { HiHome } from "react-icons/hi";
 import { FaUser } from "react-icons/fa";
-import { homeRoutePath, usersRoutePath } from "../../../routes/config";
+import { ImLock } from "react-icons/im";
+import {
+    homeRoutePath,
+    rolesRoutePath,
+    usersRoutePath,
+} from "../../../routes/config";
 
 const Links = [
     { name: "Home", to: homeRoutePath, icon: <HiHome /> },
     { name: "Users", to: usersRoutePath, icon: <FaUser /> },
+    { name: "Roles", to: rolesRoutePath, icon: <ImLock /> },
 ];
 
 const NavLink = ({

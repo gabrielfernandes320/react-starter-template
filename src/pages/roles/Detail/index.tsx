@@ -12,38 +12,41 @@ import {
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "react-query";
 import React from "react";
-import UserHttpService from "../../../services/http/user-http";
-import { IUser } from "../../../interfaces/user/user";
+import RoleHttpService from "../../../services/http/role-http";
+import { IRole } from "../../../interfaces/role/role";
 import TopInfoBar from "../../../components/navigation/TopInfoBar";
-import PersonalData from "../components/PersonalData";
+import BasicInfo from "../components/BasicInfo";
+import Permissions from "../components/Permissions";
+
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { useHistory, useParams } from "react-router-dom";
 import { AxiosResponse } from "axios";
-import { usersRoutePath } from "../../../routes/config";
+import { rolesRoutePath } from "../../../routes/config";
 export const Detail: React.FC = () => {
     const toast = useToast();
-    const methods = useForm<IUser>({
+    const methods = useForm<IRole>({
         defaultValues: { enabled: true },
     });
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
 
-    useQuery("user", LoadUser, {
+    useQuery("role", LoadRole, {
         enabled: !!id,
     });
 
-    async function LoadUser() {
-        const { data: user }: AxiosResponse = await UserHttpService.show(id);
+    async function LoadRole() {
+        const { data: role }: AxiosResponse<IRole> = await RoleHttpService.show(
+            id
+        );
 
-        user.roles = user.roles[0].id;
-        methods.reset(user);
+        methods.reset(role);
 
-        return user;
+        return role;
     }
 
     const mutation = useMutation(
-        async (data: IUser) => {
-            await UserHttpService.store(data);
+        async (data: IRole) => {
+            await RoleHttpService.store(data);
         },
         {
             onError: (error: any) => {
@@ -58,17 +61,17 @@ export const Detail: React.FC = () => {
             },
             onSuccess: () => {
                 toast({
-                    title: "Sucess at saving the user.",
+                    title: "Sucess at saving the role.",
                     status: "success",
                     duration: 2000,
                     isClosable: true,
                 });
-                history.push(usersRoutePath);
+                history.push(rolesRoutePath);
             },
         }
     );
 
-    const onSubmit: SubmitHandler<IUser> = (data: IUser) => {
+    const onSubmit: SubmitHandler<IRole> = (data: IRole) => {
         console.log(data);
         mutation.mutate(data);
     };
@@ -76,8 +79,8 @@ export const Detail: React.FC = () => {
     return (
         <>
             <TopInfoBar
-                title={"Users"}
-                subtitle={"All your users in one place."}
+                title={"Roles"}
+                subtitle={"All your roles in one place."}
                 Buttons={[
                     <Button
                         onClick={methods.handleSubmit(onSubmit)}
@@ -95,12 +98,16 @@ export const Detail: React.FC = () => {
             <Box pr={"9"} pl={"9"}>
                 <Tabs>
                     <TabList>
-                        <Tab>Personal data</Tab>
+                        <Tab>Basic Info</Tab>
+                        <Tab>Permissions</Tab>
                     </TabList>
                     <FormProvider {...methods}>
                         <TabPanels>
                             <TabPanel>
-                                <PersonalData />
+                                <BasicInfo />
+                            </TabPanel>
+                            <TabPanel>
+                                <Permissions />
                             </TabPanel>
                         </TabPanels>
                     </FormProvider>

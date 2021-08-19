@@ -8,6 +8,7 @@ import {
     homeRoutePath,
     UsersRoutesComponent,
     NotFoundRoutesComponent,
+    RolesRoutesComponent,
 } from "./config";
 
 const AppRoutes: React.FC = () => (
@@ -16,6 +17,7 @@ const AppRoutes: React.FC = () => (
         <NavBar>
             <Route path={homeRoutePath} component={HomeRoutesComponent} />
             <UsersRoutesComponent />
+            <RolesRoutesComponent />
         </NavBar>
         <Route component={NotFoundRoutesComponent} />
     </Switch>
