@@ -2,7 +2,7 @@ import { IRole } from "../../interfaces/role/role";
 import Request from "./request";
 
 export default class RoleHttpService {
-    public static uri = "/roles";
+    public static uri = "/v1/roles";
 
     public static index() {
         return Request.get<IRole[]>(this.uri);

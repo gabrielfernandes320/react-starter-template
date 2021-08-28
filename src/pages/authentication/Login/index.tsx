@@ -126,7 +126,6 @@ const Login: React.FC = () => {
                             <Button
                                 isLoading={mutation.isLoading}
                                 type="submit"
-                                variantColor="teal"
                                 variant="outline"
                                 width="full"
                                 mt={"2"}

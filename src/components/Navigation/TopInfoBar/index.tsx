@@ -5,50 +5,54 @@ import { ReactNode } from "react";
 import { useHistory } from "react-router-dom";
 
 interface Props {
-  title: string;
-  subtitle: string;
-  Buttons: ReactNode[];
+    title: string;
+    subtitle: string;
+    Buttons: ReactNode[];
 }
 
 const TopInfoBar: React.FC<Props> = ({ Buttons, subtitle, title }: Props) => {
-  const history = useHistory();
+    const history = useHistory();
 
-  return (
-    <>
-      <Box
-        marginBottom={"10"}
-        borderBottomWidth={1}
-        boxShadow={"md"}
-        height={"fit-content"}
-        p={4}
-        pt={"2"}
-        pl={"6"}
-        display="flex"
-        alignContent={"center"}
-        alignItems="center"
-      >
-        <IconButton
-          onClick={() => {
-            history.goBack();
-          }}
-          mr="2"
-          aria-label="Back"
-          variant={"ghost"}
-          icon={<ArrowBackIcon w={7} h={7} />}
-        />
+    return (
+        <>
+            <Box
+                marginBottom={"10"}
+                borderBottomWidth={1}
+                boxShadow={"md"}
+                height={"fit-content"}
+                p={4}
+                pt={"2"}
+                pl={"6"}
+                display="flex"
+                alignContent={"center"}
+                alignItems="center"
+            >
+                <IconButton
+                    onClick={() => {
+                        history.goBack();
+                    }}
+                    mr="2"
+                    aria-label="Back"
+                    variant={"ghost"}
+                    icon={<ArrowBackIcon w={7} h={7} />}
+                />
 
-        <Box>
-          <Text fontSize={"xl"} fontWeight="bold">
-            {title}
-          </Text>
-          <Text fontSize={"md"}>{subtitle}</Text>
-        </Box>
+                <Box>
+                    <Text fontSize={"xl"} fontWeight="bold">
+                        {title}
+                    </Text>
+                    <Text fontSize={"md"}>{subtitle}</Text>
+                </Box>
 
-        <Spacer />
-        <HStack pr={6}>{Buttons.map((Btn) => Btn)}</HStack>
-      </Box>
-    </>
-  );
+                <Spacer />
+                <HStack pr={6}>
+                    {Buttons.map((Btn, index) => (
+                        <React.Fragment key={index}>{Btn} </React.Fragment>
+                    ))}
+                </HStack>
+            </Box>
+        </>
+    );
 };
 
 export default TopInfoBar;

@@ -2,7 +2,7 @@ import { ILogin } from "../../interfaces/auth/login";
 import Request from "./request";
 
 export default class AuthHttpService {
-    public static uri = "/auth";
+    public static uri = "/v1/auth";
 
     public static login(login: ILogin) {
         return Request.post(`${this.uri}/login`, login);
