@@ -6,15 +6,14 @@ import {
     FormLabel,
     Input,
     Grid,
-    Select,
     Switch,
 } from "@chakra-ui/react";
 import { AxiosResponse } from "axios";
 import React, { useRef } from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import { useQuery } from "react-query";
-import { IRole } from "../../../../interfaces/role/role";
 import { IUser } from "../../../../interfaces/user/user";
+import { IRole } from "../../../../interfaces/role/role";
 
 const BasicInfo: React.FC = () => {
     const { data: roles } = useQuery(["users"], async () => {
@@ -26,12 +25,9 @@ const BasicInfo: React.FC = () => {
         register,
         watch,
         control,
-        getValues,
-        formState: { errors },
-    } = useFormContext<IUser>();
 
-    const password = useRef("" as any);
-    password.current = watch("password", "");
+        formState: { errors },
+    } = useFormContext<IRole>();
 
     return (
         <Box>
