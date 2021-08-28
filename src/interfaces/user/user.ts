@@ -11,5 +11,5 @@ export interface IUser {
     createdAt: DateTime;
     updatedAt: DateTime;
     deletetAt?: DateTime;
-    roles: any;
+    roles: IRole[];
 }

@@ -1,3 +1,4 @@
+import { IUser } from "./../interfaces/user/user";
 import { IUseAuth } from "./../interfaces/auth/useAuth";
 import AuthHttpService from "../services/http/login-http";
 import { ILogin } from "../interfaces/auth/login";
@@ -11,7 +12,7 @@ const useAuth = () => {
     const AUTH_HEADER_KEY = "Authorization";
     const history = useHistory();
 
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState<IUser>();
     const [isAuthenticated, setIsAuthenticated] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
     const toast = useToast();
@@ -25,7 +26,7 @@ const useAuth = () => {
                 setUser(data);
                 setIsAuthenticated(true);
             } catch (error) {
-                setUser({});
+                setUser({} as IUser);
                 setIsAuthenticated(false);
             }
 

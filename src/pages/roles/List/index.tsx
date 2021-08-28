@@ -21,6 +21,8 @@ import Table from "../../../components/data-display/Table";
 import TopInfoBar from "../../../components/navigation/TopInfoBar";
 import { rolesNewRoutePath, rolesRoutePath } from "../../../routes/config";
 import { DateTime } from "luxon";
+import PermissionsGate from "../../../components/permissions/PermissionsGate";
+import { Permission } from "../../../enums/Permission";
 
 export const List: React.FC = () => {
     const toast = useToast();
@@ -158,13 +160,17 @@ export const List: React.FC = () => {
                 title={"Roles"}
                 subtitle={"All your roles in one place."}
                 Buttons={[
-                    <Button
-                        onClick={() => history.push(rolesNewRoutePath)}
-                        leftIcon={<AddIcon />}
-                        alignContent={"flex-end"}
+                    <PermissionsGate
+                        allowedPermissions={[Permission.UpdateUsers]}
                     >
-                        New User
-                    </Button>,
+                        <Button
+                            onClick={() => history.push(rolesNewRoutePath)}
+                            leftIcon={<AddIcon />}
+                            alignContent={"flex-end"}
+                        >
+                            New User
+                        </Button>
+                    </PermissionsGate>,
                 ]}
             />
             <Table columns={columns} data={memoData ?? []} />
