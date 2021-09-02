@@ -8,8 +8,8 @@ export default class AuthHttpService {
         return Request.post(`${this.uri}/login`, login);
     }
 
-    public static forgotPassword(email: string) {
-        return Request.post(`${this.uri}/send-password-reset-request`, {
+    public static accountRecovery(email: string) {
+        return Request.post(`${this.uri}/forgot-password`, {
             email,
         });
     }

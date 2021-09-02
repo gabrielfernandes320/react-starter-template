@@ -36,7 +36,14 @@ const PersonalData: React.FC = () => {
     return (
         <Box>
             <Box>
-                <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+                <Grid
+                    templateColumns={[
+                        "repeat(1, 1fr)",
+                        "repeat(1, 1fr)",
+                        "repeat(2, 1fr)",
+                    ]}
+                    gap={6}
+                >
                     <FormControl isInvalid={!!errors.name}>
                         <FormLabel>Name</FormLabel>
                         <Input

@@ -9,11 +9,17 @@ import {
     UsersRoutesComponent,
     NotFoundRoutesComponent,
     RolesRoutesComponent,
+    accountRecoveryRoutePath,
 } from "./config";
 
 const AppRoutes: React.FC = () => (
     <Switch>
         <Route path={loginRoutePath} component={AuthRoutesComponent} />
+        <Route
+            path={accountRecoveryRoutePath}
+            component={AuthRoutesComponent}
+        />
+
         <NavBar>
             <Route path={homeRoutePath} component={HomeRoutesComponent} />
             <UsersRoutesComponent />
