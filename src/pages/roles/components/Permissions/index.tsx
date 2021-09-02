@@ -4,7 +4,7 @@ import {
     Box,
     FormControl,
     FormErrorMessage,
-    Grid,
+    //Grid,
     HStack,
     SimpleGrid,
     Switch,
@@ -23,8 +23,8 @@ const BasicInfo: React.FC = () => {
     });
 
     const {
-        register,
-        watch,
+        // register,
+        // watch,
         control,
         getValues,
         setValue,

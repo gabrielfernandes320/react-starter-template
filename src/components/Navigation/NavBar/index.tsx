@@ -18,7 +18,6 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import innova from "../../../assets/images/Innova_site.png";
 import { Link as ReactLink } from "react-router-dom";
 import ThemeToggler from "../../Theme/ThemeToggler";
 import useAuth from "../../../hooks/useAuth";
@@ -90,9 +89,7 @@ export default function Navbar({ children }: any) {
                         onClick={isOpen ? onClose : onOpen}
                     />
                     <HStack spacing={8} alignItems={"center"}>
-                        <Box>
-                            <Image src={innova} width={200} />
-                        </Box>
+                        <Box></Box>
                         <HStack
                             as={"nav"}
                             spacing={4}

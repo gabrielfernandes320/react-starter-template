@@ -23,6 +23,8 @@ import TopInfoBar from "../../../components/navigation/TopInfoBar";
 import { usersNewRoutePath, usersRoutePath } from "../../../routes/config";
 import { DateTime } from "luxon";
 import { IRole } from "../../../interfaces/role/role";
+import PermissionsGate from "../../../components/permissions/PermissionsGate";
+import { Permission } from "../../../enums/Permission";
 
 export const List: React.FC = () => {
     const toast = useToast();
@@ -112,6 +114,7 @@ export const List: React.FC = () => {
                     props.row.original.roles ? (
                         props.row.original.roles?.map((role: IRole) => (
                             <Tag
+                                mr={"2.5"}
                                 size={"lg"}
                                 key={role.id}
                                 variant="solid"
@@ -146,31 +149,51 @@ export const List: React.FC = () => {
                 Header: "Actions",
                 accessor: "action",
                 Cell: (props: any) => (
-                    <Menu>
-                        <MenuButton
-                            as={IconButton}
-                            variant={"ghost"}
-                            icon={<HamburgerIcon />}
-                        />
-                        <MenuList>
-                            <MenuItem
-                                as={Link}
-                                to={`${usersRoutePath}/${props.row.original.id}/edit`}
-                            >
-                                Edit
-                            </MenuItem>
-                            <MenuItem
-                                onClick={async () => {
-                                    await destroyMutation.mutateAsync(
-                                        +props.row.original.id
-                                    );
-                                    refetch();
-                                }}
-                            >
-                                Delete
-                            </MenuItem>
-                        </MenuList>
-                    </Menu>
+                    <PermissionsGate
+                        allowedPermissions={[
+                            Permission.UpdateUsers,
+                            Permission.DeleteUsers,
+                        ]}
+                    >
+                        <Menu>
+                            <MenuButton
+                                as={IconButton}
+                                variant={"ghost"}
+                                icon={<HamburgerIcon />}
+                            />
+                            <MenuList>
+                                <PermissionsGate
+                                    allowedPermissions={[
+                                        Permission.UpdateUsers,
+                                    ]}
+                                >
+                                    <MenuItem
+                                        as={Link}
+                                        to={`${usersRoutePath}/${props.row.original.id}/edit`}
+                                    >
+                                        Edit
+                                    </MenuItem>
+                                </PermissionsGate>
+
+                                <PermissionsGate
+                                    allowedPermissions={[
+                                        Permission.DeleteUsers,
+                                    ]}
+                                >
+                                    <MenuItem
+                                        onClick={async () => {
+                                            await destroyMutation.mutateAsync(
+                                                +props.row.original.id
+                                            );
+                                            refetch();
+                                        }}
+                                    >
+                                        Delete
+                                    </MenuItem>
+                                </PermissionsGate>
+                            </MenuList>
+                        </Menu>
+                    </PermissionsGate>
                 ),
             },
         ],
@@ -192,7 +215,9 @@ export const List: React.FC = () => {
                     </Button>,
                 ]}
             />
-            <Table columns={columns} data={memoData ?? []} />
+            <PermissionsGate allowedPermissions={[Permission.ListUsers]}>
+                <Table columns={columns} data={memoData ?? []} />
+            </PermissionsGate>
         </>
     );
 };

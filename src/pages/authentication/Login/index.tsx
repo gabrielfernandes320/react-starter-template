@@ -49,14 +49,13 @@ const Login: React.FC = () => {
         <>
             <ThemeToggler />
             <Flex align="center" justifyContent="center">
-                <Box p={"2"}>
-                    <Image src={innova} maxW={450} mt={100} mb={30} />
+                <Box p={[0, 0, 40, 40]}>
                     <Box
                         textAlign="left"
                         p={8}
-                        borderWidth={1}
-                        borderRadius={8}
-                        boxShadow="xl"
+                        borderWidth={[0, 1]}
+                        borderRadius={[0, 8]}
+                        boxShadow={[0, "xl"]}
                     >
                         <Box textAlign="center">
                             <Heading>Login</Heading>

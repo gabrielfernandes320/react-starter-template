@@ -1,4 +1,4 @@
-import RoleHttpService from "../../../../services/http/role-http";
+//import RoleHttpService from "../../../../services/http/role-http";
 import {
     Box,
     FormControl,
@@ -8,22 +8,21 @@ import {
     Grid,
     Switch,
 } from "@chakra-ui/react";
-import { AxiosResponse } from "axios";
-import React, { useRef } from "react";
+//import { AxiosResponse } from "axios";
+import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
-import { useQuery } from "react-query";
-import { IUser } from "../../../../interfaces/user/user";
+//import { useQuery } from "react-query";
 import { IRole } from "../../../../interfaces/role/role";
 
 const BasicInfo: React.FC = () => {
-    const { data: roles } = useQuery(["users"], async () => {
-        const { data }: AxiosResponse = await RoleHttpService.index();
-        return data.value;
-    });
+    // const { data: roles } = useQuery(["users"], async () => {
+    //     const { data }: AxiosResponse = await RoleHttpService.index();
+    //     return data.value;
+    // });
 
     const {
         register,
-        watch,
+
         control,
 
         formState: { errors },

@@ -20,6 +20,8 @@ import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { useHistory, useParams } from "react-router-dom";
 import { AxiosResponse } from "axios";
 import { usersRoutePath } from "../../../routes/config";
+import PermissionsGate from "../../../components/permissions/PermissionsGate";
+import { Permission } from "../../../enums/Permission";
 export const Detail: React.FC = () => {
     const toast = useToast();
     const methods = useForm<IUser>({
@@ -27,9 +29,9 @@ export const Detail: React.FC = () => {
     });
     const history = useHistory();
     const { id } = useParams<{ id: string }>();
-
+    const isEditing = !!id;
     useQuery("user", LoadUser, {
-        enabled: !!id,
+        enabled: isEditing,
     });
 
     async function LoadUser() {
@@ -79,16 +81,24 @@ export const Detail: React.FC = () => {
                 title={"Users"}
                 subtitle={"All your users in one place."}
                 Buttons={[
-                    <Button
-                        onClick={methods.handleSubmit(onSubmit)}
-                        type={"submit"}
-                        leftIcon={
-                            mutation.isLoading ? <Spinner /> : <CheckIcon />
-                        }
-                        alignContent={"flex-end"}
+                    <PermissionsGate
+                        allowedPermissions={[
+                            isEditing
+                                ? Permission.UpdateUsers
+                                : Permission.CreateUsers,
+                        ]}
                     >
-                        Save
-                    </Button>,
+                        <Button
+                            onClick={methods.handleSubmit(onSubmit)}
+                            type={"submit"}
+                            leftIcon={
+                                mutation.isLoading ? <Spinner /> : <CheckIcon />
+                            }
+                            alignContent={"flex-end"}
+                        >
+                            Save
+                        </Button>
+                    </PermissionsGate>,
                 ]}
             />
 
