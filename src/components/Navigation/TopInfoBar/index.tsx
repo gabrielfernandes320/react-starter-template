@@ -38,14 +38,14 @@ const TopInfoBar: React.FC<Props> = ({ Buttons, subtitle, title }: Props) => {
                 />
 
                 <Box>
-                    <Text fontSize={"xl"} fontWeight="bold">
+                    <Text fontSize={[0, "xl"]} fontWeight="bold">
                         {title}
                     </Text>
-                    <Text fontSize={"md"}>{subtitle}</Text>
+                    <Text fontSize={[0, "md"]}>{subtitle}</Text>
                 </Box>
 
                 <Spacer />
-                <HStack pr={6}>
+                <HStack pr={[0, 6]}>
                     {Buttons.map((Btn, index) => (
                         <React.Fragment key={index}>{Btn} </React.Fragment>
                     ))}

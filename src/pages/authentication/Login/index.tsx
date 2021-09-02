@@ -14,11 +14,9 @@ import {
     Input,
     Button,
     FormErrorMessage,
-    Image,
     Text,
 } from "@chakra-ui/react";
 import { homeRoutePath } from "../../../routes/config";
-import innova from "../../../assets/images/Innova_site.png";
 import ThemeToggler from "../../../components/Theme/ThemeToggler";
 
 const Login: React.FC = () => {
@@ -102,7 +100,7 @@ const Login: React.FC = () => {
                                     {errors.password && errors.password.message}
                                 </FormErrorMessage>
                             </FormControl>
-                            <Text>
+                            <Text fontSize={["sm", "md"]}>
                                 Forgot your password?{" "}
                                 <Button
                                     variant={"link"}
