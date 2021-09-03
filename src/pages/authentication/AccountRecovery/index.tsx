@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IRecoverAccount } from "../../../interfaces/auth/recoverAccount";
+import { IRecoverAccount } from "../../../interfaces/auth/account-recovery";
 import useAuth from "../../../hooks/useAuth";
 import { useMutation } from "react-query";
 import Alert from "../../../components/feedback/Alert";
@@ -19,6 +19,7 @@ import { homeRoutePath } from "../../../routes/config";
 import ThemeToggler from "../../../components/Theme/ThemeToggler";
 import { Link } from "react-router-dom";
 import AuthHttpService from "../../../services/http/auth-http";
+import AuthBaseLayout from "../components/BaseLayout";
 
 const AccountRecovery: React.FC = () => {
     const auth = useAuth();
@@ -47,71 +48,56 @@ const AccountRecovery: React.FC = () => {
     };
 
     return (
-        <>
-            <ThemeToggler />
-            <Flex align="center" justifyContent="center">
-                <Box p={[0, 0, 40, 40]}>
-                    <Box
-                        textAlign="left"
-                        p={8}
-                        borderWidth={[0, 1]}
-                        borderRadius={[0, 8]}
-                        boxShadow={[0, "xl"]}
-                    >
-                        <Box textAlign="center">
-                            <Heading>Recover Your Account</Heading>
-                        </Box>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <FormControl mt={6} isInvalid={!!errors.email}>
-                                {mutation.isError && (
-                                    <Alert
-                                        status={"error"}
-                                        message={mutation?.error?.message}
-                                    />
-                                )}
-                                {mutation.isSuccess && (
-                                    <Alert
-                                        status={"success"}
-                                        message={"Login realizado com sucesso!"}
-                                    />
-                                )}
-                                <FormLabel>Email</FormLabel>
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    placeholder="your@email.com"
-                                    {...register("email", {
-                                        required: "This is required",
-                                    })}
-                                />
-                                <FormErrorMessage>
-                                    {errors.email && errors.email.message}
-                                </FormErrorMessage>
-                            </FormControl>
+        <AuthBaseLayout title={"Account Recovery"}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <FormControl mt={6} isInvalid={!!errors.email}>
+                    {mutation.isError && (
+                        <Alert
+                            status={"error"}
+                            message={mutation?.error?.message}
+                        />
+                    )}
+                    {mutation.isSuccess && (
+                        <Alert
+                            status={"success"}
+                            message={"Login realizado com sucesso!"}
+                        />
+                    )}
+                    <FormLabel>Email</FormLabel>
+                    <Input
+                        id="email"
+                        type="email"
+                        placeholder="your@email.com"
+                        {...register("email", {
+                            required: "This is required",
+                        })}
+                    />
+                    <FormErrorMessage>
+                        {errors.email && errors.email.message}
+                    </FormErrorMessage>
+                </FormControl>
 
-                            <Button
-                                isLoading={mutation.isLoading}
-                                type="submit"
-                                variant="solid"
-                                width="full"
-                                mt={"10"}
-                            >
-                                Send Link
-                            </Button>
-                            <Button
-                                isLoading={mutation.isLoading}
-                                type="submit"
-                                variant="outline"
-                                width="full"
-                                mt={"2"}
-                            >
-                                Cancel
-                            </Button>
-                        </form>
-                    </Box>
-                </Box>
-            </Flex>
-        </>
+                <Button
+                    isLoading={mutation.isLoading}
+                    type="submit"
+                    variant="solid"
+                    width="full"
+                    mt={"10"}
+                >
+                    Send Link
+                </Button>
+                <Button
+                    isLoading={mutation.isLoading}
+                    type="submit"
+                    variant="outline"
+                    onClick={history.goBack}
+                    width="full"
+                    mt={"2"}
+                >
+                    Cancel
+                </Button>
+            </form>
+        </AuthBaseLayout>
     );
 };
 

@@ -10,6 +10,7 @@ import {
     NotFoundRoutesComponent,
     RolesRoutesComponent,
     accountRecoveryRoutePath,
+    changePasswordRoutePath,
 } from "./config";
 
 const AppRoutes: React.FC = () => (
@@ -19,6 +20,7 @@ const AppRoutes: React.FC = () => (
             path={accountRecoveryRoutePath}
             component={AuthRoutesComponent}
         />
+        <Route path={changePasswordRoutePath} component={AuthRoutesComponent} />
 
         <NavBar>
             <Route path={homeRoutePath} component={HomeRoutesComponent} />

@@ -1,5 +1,5 @@
 import { IUser } from "./../interfaces/user/user";
-import { IUseAuth } from "./../interfaces/auth/useAuth";
+import { IUseAuth } from "../interfaces/auth/use-auth";
 import AuthHttpService from "../services/http/auth-http";
 import { ILogin } from "../interfaces/auth/login";
 import Request from "../services/http/request";
