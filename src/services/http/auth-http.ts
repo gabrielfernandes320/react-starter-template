@@ -9,13 +9,13 @@ export default class AuthHttpService {
     }
 
     public static accountRecovery(email: string) {
-        return Request.post(`${this.uri}/forgot-password`, {
+        return Request.post(`${this.uri}/password/forgot`, {
             email,
         });
     }
 
     public static resetPassword(data: Object) {
-        return Request.post(`${this.uri}/reset-password`, data);
+        return Request.post(`${this.uri}/password/reset`, data);
     }
 
     public static getAuthenticatedUser() {
