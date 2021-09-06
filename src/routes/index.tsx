@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import NavBar from "../components/navigation/NavBar";
+// import NavBar from "../components/navigation/NavBar";
 import {
     AuthRoutesComponent,
     loginRoutePath,
@@ -22,11 +22,11 @@ const AppRoutes: React.FC = () => (
         />
         <Route path={changePasswordRoutePath} component={AuthRoutesComponent} />
 
-        <NavBar>
-            <Route path={homeRoutePath} component={HomeRoutesComponent} />
-            <UsersRoutesComponent />
-            <RolesRoutesComponent />
-        </NavBar>
+        {/* <NavBar> */}
+        <Route path={homeRoutePath} component={HomeRoutesComponent} />
+        <UsersRoutesComponent />
+        <RolesRoutesComponent />
+        {/* </NavBar> */}
         <Route component={NotFoundRoutesComponent} />
     </Switch>
 );
