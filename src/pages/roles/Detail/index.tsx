@@ -72,15 +72,14 @@ export const Detail: React.FC = () => {
     );
 
     const onSubmit: SubmitHandler<IRole> = (data: IRole) => {
-        console.log(data);
         mutation.mutate(data);
     };
 
     return (
         <>
             <TopInfoBar
-                title={"Roles"}
-                subtitle={"All your roles in one place."}
+                title={methods.getValues().name}
+                subtitle={"All the informations about the role."}
                 Buttons={[
                     <Button
                         onClick={methods.handleSubmit(onSubmit)}

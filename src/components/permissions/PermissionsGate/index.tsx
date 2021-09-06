@@ -2,7 +2,7 @@ import { flatten, removeDuplicates } from "../../../utils/array";
 
 import React, { cloneElement } from "react";
 import { ReactNode } from "react";
-import useAuth from "../../../hooks/useAuth";
+import { useAuth } from "../../../hooks/authContext";
 import { IPermission } from "../../../interfaces/permission/permission";
 
 interface Props {

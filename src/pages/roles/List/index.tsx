@@ -22,7 +22,7 @@ import TopInfoBar from "../../../components/navigation/TopInfoBar";
 import { rolesNewRoutePath, rolesRoutePath } from "../../../routes/config";
 import { DateTime } from "luxon";
 import PermissionsGate from "../../../components/permissions/PermissionsGate";
-import { Permission } from "../../../enums/Permission";
+import { RolePermissions } from "../../../enums/permissions";
 
 export const List: React.FC = () => {
     const toast = useToast();
@@ -161,14 +161,14 @@ export const List: React.FC = () => {
                 subtitle={"All your roles in one place."}
                 Buttons={[
                     <PermissionsGate
-                        allowedPermissions={[Permission.UpdateUsers]}
+                        allowedPermissions={[RolePermissions.Create]}
                     >
                         <Button
                             onClick={() => history.push(rolesNewRoutePath)}
                             leftIcon={<AddIcon />}
                             alignContent={"flex-end"}
                         >
-                            New User
+                            New Role
                         </Button>
                     </PermissionsGate>,
                 ]}

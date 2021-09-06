@@ -14,13 +14,12 @@ import {
     useDisclosure,
     useColorModeValue,
     Stack,
-    Image,
     VStack,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link as ReactLink } from "react-router-dom";
 import ThemeToggler from "../../Theme/ThemeToggler";
-import useAuth from "../../../hooks/useAuth";
+import { useAuth } from "../../../hooks/authContext";
 import { HiHome } from "react-icons/hi";
 import { FaUser } from "react-icons/fa";
 import { ImLock } from "react-icons/im";

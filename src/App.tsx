@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter as Router } from "react-router-dom";
 import Routes from "./routes";
 import { theme, ChakraProvider, ColorModeScript } from "@chakra-ui/react";
+import { AuthProvider } from "./hooks/authContext";
 function App() {
     const queryClient = new QueryClient();
 
@@ -13,8 +14,9 @@ function App() {
                         <ColorModeScript
                             initialColorMode={theme.config.initialColorMode}
                         />
-
-                        <Routes />
+                        <AuthProvider>
+                            <Routes />
+                        </AuthProvider>
                     </QueryClientProvider>
                 </ChakraProvider>
             </Router>

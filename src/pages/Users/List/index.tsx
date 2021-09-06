@@ -24,7 +24,7 @@ import { usersNewRoutePath, usersRoutePath } from "../../../routes/config";
 import { DateTime } from "luxon";
 import { IRole } from "../../../interfaces/role/role";
 import PermissionsGate from "../../../components/permissions/PermissionsGate";
-import { Permission } from "../../../enums/Permission";
+import { UserPermissions } from "../../../enums/permissions";
 
 export const List: React.FC = () => {
     const toast = useToast();
@@ -151,8 +151,8 @@ export const List: React.FC = () => {
                 Cell: (props: any) => (
                     <PermissionsGate
                         allowedPermissions={[
-                            Permission.UpdateUsers,
-                            Permission.DeleteUsers,
+                            UserPermissions.Update,
+                            UserPermissions.Delete,
                         ]}
                     >
                         <Menu>
@@ -164,7 +164,7 @@ export const List: React.FC = () => {
                             <MenuList>
                                 <PermissionsGate
                                     allowedPermissions={[
-                                        Permission.UpdateUsers,
+                                        UserPermissions.Update,
                                     ]}
                                 >
                                     <MenuItem
@@ -177,7 +177,7 @@ export const List: React.FC = () => {
 
                                 <PermissionsGate
                                     allowedPermissions={[
-                                        Permission.DeleteUsers,
+                                        UserPermissions.Delete,
                                     ]}
                                 >
                                     <MenuItem
@@ -215,7 +215,7 @@ export const List: React.FC = () => {
                     </Button>,
                 ]}
             />
-            <PermissionsGate allowedPermissions={[Permission.ListUsers]}>
+            <PermissionsGate allowedPermissions={[UserPermissions.List]}>
                 <Table columns={columns} data={memoData ?? []} />
             </PermissionsGate>
         </>

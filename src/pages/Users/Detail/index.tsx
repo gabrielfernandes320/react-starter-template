@@ -21,7 +21,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { AxiosResponse } from "axios";
 import { usersRoutePath } from "../../../routes/config";
 import PermissionsGate from "../../../components/permissions/PermissionsGate";
-import { Permission } from "../../../enums/Permission";
+import { UserPermissions } from "../../../enums/permissions";
 export const Detail: React.FC = () => {
     const toast = useToast();
     const methods = useForm<IUser>({
@@ -79,13 +79,13 @@ export const Detail: React.FC = () => {
         <>
             <TopInfoBar
                 title={"Users"}
-                subtitle={"All your users in one place."}
+                subtitle={"All the user information."}
                 Buttons={[
                     <PermissionsGate
                         allowedPermissions={[
                             isEditing
-                                ? Permission.UpdateUsers
-                                : Permission.CreateUsers,
+                                ? UserPermissions.Update
+                                : UserPermissions.Create,
                         ]}
                     >
                         <Button

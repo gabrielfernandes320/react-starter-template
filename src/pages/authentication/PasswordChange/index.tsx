@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IPasswordChange } from "../../../interfaces/auth/password-change";
-import useAuth from "../../../hooks/useAuth";
 import { useMutation } from "react-query";
 import {
     FormControl,

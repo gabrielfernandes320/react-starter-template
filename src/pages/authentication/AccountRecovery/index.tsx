@@ -2,13 +2,9 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IRecoverAccount } from "../../../interfaces/auth/account-recovery";
-import useAuth from "../../../hooks/useAuth";
 import { useMutation } from "react-query";
 import Alert from "../../../components/feedback/Alert";
 import {
-    Flex,
-    Box,
-    Heading,
     FormControl,
     FormLabel,
     Input,
@@ -16,13 +12,10 @@ import {
     FormErrorMessage,
 } from "@chakra-ui/react";
 import { homeRoutePath } from "../../../routes/config";
-import ThemeToggler from "../../../components/Theme/ThemeToggler";
-import { Link } from "react-router-dom";
 import AuthHttpService from "../../../services/http/auth-http";
 import AuthBaseLayout from "../components/BaseLayout";
 
 const AccountRecovery: React.FC = () => {
-    const auth = useAuth();
     const history = useHistory();
     const mutation = useMutation(
         async (data: IRecoverAccount) => {
