@@ -17,17 +17,12 @@ const PasswordChange: React.FC = () => {
     const { token } = useParams<{ token: string }>();
 
     const history = useHistory();
-    const mutation = useMutation(
-        async (data: IPasswordChange) => {
-            console.log(data);
+    const mutation = useMutation(async (data: IPasswordChange) => {}, {
+        onError: (error: any) => {},
+        onSuccess: () => {
+            history.push(homeRoutePath);
         },
-        {
-            onError: (error: any) => {},
-            onSuccess: () => {
-                history.push(homeRoutePath);
-            },
-        }
-    );
+    });
 
     const {
         register,

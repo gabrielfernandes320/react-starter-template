@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ILogin } from "../../../interfaces/auth/login";
-import { useAuth } from "../../../hooks/authContext";
+import { useAuth } from "../../../hooks/use-auth";
 
 import { useMutation } from "react-query";
 import Alert from "../../../components/feedback/Alert";

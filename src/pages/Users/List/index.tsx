@@ -9,6 +9,8 @@ import {
     useToast,
     Switch,
     Tag,
+    Text,
+    Center,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "react-query";
 import React from "react";
@@ -30,7 +32,7 @@ export const List: React.FC = () => {
     const toast = useToast();
     const history = useHistory();
 
-    const { data, refetch } = useQuery(["users"], async () => {
+    const { data: users, refetch } = useQuery(["users"], async () => {
         const { data }: AxiosResponse = await UserHttpService.index();
 
         return data.value;
@@ -86,7 +88,7 @@ export const List: React.FC = () => {
         }
     );
 
-    const memoData: IUser[] = React.useMemo(() => data, [data]);
+    const memoData: IUser[] = React.useMemo(() => users, [users]);
 
     const columns: Column[] = React.useMemo(
         () => [
@@ -131,17 +133,21 @@ export const List: React.FC = () => {
                 Header: "Enabled",
                 accessor: "enabled",
                 Cell: (props: any) => (
-                    <Switch
-                        size={"lg"}
-                        onChange={async () => {
-                            const data: IUser = props.row.original;
-
-                            data.enabled = !data.enabled;
-                            await updateMutation.mutateAsync(data);
-                            await refetch();
-                        }}
-                        isChecked={props.row.original.enabled}
-                    />
+                    <PermissionsGate
+                        allowedPermissions={[UserPermissions.Update]}
+                        noAccessProps={{ isDisabled: true }}
+                    >
+                        <Switch
+                            size={"lg"}
+                            onChange={async () => {
+                                const data: IUser = props.row.original;
+                                data.enabled = !data.enabled;
+                                await updateMutation.mutateAsync(data);
+                                await refetch();
+                            }}
+                            isChecked={props.row.original.enabled}
+                        />
+                    </PermissionsGate>
                 ),
             },
 
@@ -149,51 +155,49 @@ export const List: React.FC = () => {
                 Header: "Actions",
                 accessor: "action",
                 Cell: (props: any) => (
-                    <PermissionsGate
-                        allowedPermissions={[
-                            UserPermissions.Update,
-                            UserPermissions.Delete,
-                        ]}
-                    >
-                        <Menu>
+                    <Menu>
+                        <PermissionsGate
+                            allowedPermissions={[
+                                UserPermissions.Delete,
+                                UserPermissions.Update,
+                            ]}
+                            noAccessProps={{ disabled: true }}
+                        >
                             <MenuButton
                                 as={IconButton}
                                 variant={"ghost"}
                                 icon={<HamburgerIcon />}
                             />
-                            <MenuList>
-                                <PermissionsGate
-                                    allowedPermissions={[
-                                        UserPermissions.Update,
-                                    ]}
-                                >
-                                    <MenuItem
-                                        as={Link}
-                                        to={`${usersRoutePath}/${props.row.original.id}/edit`}
-                                    >
-                                        Edit
-                                    </MenuItem>
-                                </PermissionsGate>
+                        </PermissionsGate>
 
-                                <PermissionsGate
-                                    allowedPermissions={[
-                                        UserPermissions.Delete,
-                                    ]}
+                        <MenuList>
+                            <PermissionsGate
+                                allowedPermissions={[UserPermissions.Update]}
+                            >
+                                <MenuItem
+                                    as={Link}
+                                    to={`${usersRoutePath}/${props.row.original.id}/edit`}
                                 >
-                                    <MenuItem
-                                        onClick={async () => {
-                                            await destroyMutation.mutateAsync(
-                                                +props.row.original.id
-                                            );
-                                            refetch();
-                                        }}
-                                    >
-                                        Delete
-                                    </MenuItem>
-                                </PermissionsGate>
-                            </MenuList>
-                        </Menu>
-                    </PermissionsGate>
+                                    Edit
+                                </MenuItem>
+                            </PermissionsGate>
+
+                            <PermissionsGate
+                                allowedPermissions={[UserPermissions.Delete]}
+                            >
+                                <MenuItem
+                                    onClick={async () => {
+                                        await destroyMutation.mutateAsync(
+                                            +props.row.original.id
+                                        );
+                                        refetch();
+                                    }}
+                                >
+                                    Delete
+                                </MenuItem>
+                            </PermissionsGate>
+                        </MenuList>
+                    </Menu>
                 ),
             },
         ],
@@ -206,16 +210,29 @@ export const List: React.FC = () => {
                 title={"Users"}
                 subtitle={"All your users in one place."}
                 Buttons={[
-                    <Button
-                        onClick={() => history.push(usersNewRoutePath)}
-                        leftIcon={<AddIcon />}
-                        alignContent={"flex-end"}
+                    <PermissionsGate
+                        allowedPermissions={[UserPermissions.Create]}
                     >
-                        New User
-                    </Button>,
+                        <Button
+                            onClick={() => history.push(usersNewRoutePath)}
+                            leftIcon={<AddIcon />}
+                            alignContent={"flex-end"}
+                        >
+                            New User
+                        </Button>
+                    </PermissionsGate>,
                 ]}
             />
-            <PermissionsGate allowedPermissions={[UserPermissions.List]}>
+            <PermissionsGate
+                renderNoAccess={
+                    <Center>
+                        <Text fontSize={"xl"}>
+                            You don`t have access to see this.
+                        </Text>
+                    </Center>
+                }
+                allowedPermissions={[UserPermissions.List]}
+            >
                 <Table columns={columns} data={memoData ?? []} />
             </PermissionsGate>
         </>

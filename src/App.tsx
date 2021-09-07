@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter as Router } from "react-router-dom";
 import Routes from "./routes";
 import { theme, ChakraProvider, ColorModeScript } from "@chakra-ui/react";
-import { AuthProvider } from "./hooks/authContext";
+import { AuthProvider } from "./hooks/use-auth";
 function App() {
     const queryClient = new QueryClient();
 

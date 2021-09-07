@@ -105,17 +105,22 @@ export const List: React.FC = () => {
                 Header: "Enabled",
                 accessor: "enabled",
                 Cell: (props: any) => (
-                    <Switch
-                        size={"lg"}
-                        onChange={async () => {
-                            const data: IRole = props.row.original;
+                    <PermissionsGate
+                        allowedPermissions={[RolePermissions.Update]}
+                        noAccessProps={{ isDisabled: true }}
+                    >
+                        <Switch
+                            size={"lg"}
+                            onChange={async () => {
+                                const data: IRole = props.row.original;
 
-                            data.enabled = !data.enabled;
-                            await updateMutation.mutateAsync(data);
-                            await refetch();
-                        }}
-                        isChecked={props.row.original.enabled}
-                    />
+                                data.enabled = !data.enabled;
+                                await updateMutation.mutateAsync(data);
+                                await refetch();
+                            }}
+                            isChecked={props.row.original.enabled}
+                        />
+                    </PermissionsGate>
                 ),
             },
 

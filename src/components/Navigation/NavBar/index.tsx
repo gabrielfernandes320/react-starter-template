@@ -19,7 +19,7 @@ import {
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link as ReactLink } from "react-router-dom";
 import ThemeToggler from "../../Theme/ThemeToggler";
-import { useAuth } from "../../../hooks/authContext";
+import { useAuth } from "../../../hooks/use-auth";
 import { HiHome } from "react-icons/hi";
 import { FaUser } from "react-icons/fa";
 import { ImLock } from "react-icons/im";
@@ -28,11 +28,29 @@ import {
     rolesRoutePath,
     usersRoutePath,
 } from "../../../routes/config";
+import { FiBell } from "react-icons/fi";
+import { RolePermissions, UserPermissions } from "../../../enums/permissions";
+import PermissionsGate from "../../permissions/PermissionsGate";
 
 const Links = [
-    { name: "Home", to: homeRoutePath, icon: <HiHome /> },
-    { name: "Users", to: usersRoutePath, icon: <FaUser /> },
-    { name: "Roles", to: rolesRoutePath, icon: <ImLock /> },
+    {
+        name: "Home",
+        to: homeRoutePath,
+        icon: <HiHome />,
+        allowedPermissions: [],
+    },
+    {
+        name: "Users",
+        to: usersRoutePath,
+        icon: <FaUser />,
+        allowedPermissions: [UserPermissions.List, UserPermissions.Create],
+    },
+    {
+        name: "Roles",
+        to: rolesRoutePath,
+        icon: <ImLock />,
+        allowedPermissions: [RolePermissions.List, RolePermissions.Create],
+    },
 ];
 
 const NavLink = ({
@@ -95,18 +113,29 @@ export default function Navbar({ children }: any) {
                             display={{ base: "none", md: "flex" }}
                         >
                             {Links.map((link) => (
-                                <NavLink
-                                    to={link.to}
-                                    key={link.to}
-                                    icon={link.icon}
+                                <PermissionsGate
+                                    allowedPermissions={link.allowedPermissions}
                                 >
-                                    {link.name}
-                                </NavLink>
+                                    <NavLink
+                                        to={link.to}
+                                        key={link.to}
+                                        icon={link.icon}
+                                    >
+                                        {link.name}
+                                    </NavLink>
+                                </PermissionsGate>
                             ))}
                         </HStack>
                     </HStack>
                     <Flex alignItems={"center"}>
                         <ThemeToggler />
+                        <IconButton
+                            mr={5}
+                            size="lg"
+                            variant="ghost"
+                            aria-label="notifications"
+                            icon={<FiBell />}
+                        />
                         <Menu>
                             <MenuButton
                                 as={Button}
@@ -134,13 +163,17 @@ export default function Navbar({ children }: any) {
                     <Box pb={4} display={{ md: "none" }}>
                         <Stack as={"nav"} spacing={4}>
                             {Links.map((link) => (
-                                <NavLink
-                                    to={link.to}
-                                    key={link.to}
-                                    icon={link.icon}
+                                <PermissionsGate
+                                    allowedPermissions={link.allowedPermissions}
                                 >
-                                    {link.name}
-                                </NavLink>
+                                    <NavLink
+                                        to={link.to}
+                                        key={link.to}
+                                        icon={link.icon}
+                                    >
+                                        {link.name}
+                                    </NavLink>
+                                </PermissionsGate>
                             ))}
                         </Stack>
                     </Box>

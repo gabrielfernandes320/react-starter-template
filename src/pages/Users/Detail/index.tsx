@@ -71,14 +71,13 @@ export const Detail: React.FC = () => {
     );
 
     const onSubmit: SubmitHandler<IUser> = (data: IUser) => {
-        console.log(data);
         mutation.mutate(data);
     };
 
     return (
         <>
             <TopInfoBar
-                title={"Users"}
+                title={methods.getValues().name}
                 subtitle={"All the user information."}
                 Buttons={[
                     <PermissionsGate

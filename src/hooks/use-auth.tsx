@@ -12,10 +12,10 @@ import { IUseAuth } from "../interfaces/auth/use-auth";
 import { IUser } from "../interfaces/user/user";
 import { loginRoutePath } from "../routes/config";
 import AuthHttpService from "../services/http/auth-http";
-import Request from "../services/http/request";
+import { ActionType } from "../enums/auth/action-type-enum";
+import authReducer from "../reducers/auth/auth-reducer";
 
 const useProvideAuth = () => {
-    const AUTH_HEADER_KEY = "Authorization";
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(false);
     const toast = useToast();
@@ -25,61 +25,30 @@ const useProvideAuth = () => {
         user: {} as IUser,
     };
 
-    enum Action {
-        Login = "login",
-        Logout = "logout",
-    }
-
-    interface CountAction {
-        type: Action;
-        payload: any;
-    }
-
-    function reducer(state: any, action: CountAction) {
-        const { type, payload } = action;
-        switch (type) {
-            case Action.Login:
-                return {
-                    ...state,
-                    isAuthenticated: true,
-                    user: payload.user,
-                };
-            case Action.Logout:
-                return {
-                    ...state,
-                    isAuthenticated: false,
-                    user: {},
-                } as IUseAuth;
-            default:
-                throw new Error();
-        }
-    }
-
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(authReducer, initialState);
 
     useEffect(() => {
         const check = async () => {
             setIsLoading(true);
 
             try {
-                const { data } = await AuthHttpService.getAuthenticatedUser();
-                dispatch({ type: Action.Login, payload: data });
+                const { data: user } =
+                    await AuthHttpService.getAuthenticatedUser();
+                dispatch({ type: ActionType.Login, payload: { user } });
             } catch (error) {
-                dispatch({ type: Action.Logout, payload: {} });
+                dispatch({ type: ActionType.Logout, payload: {} });
             }
-            console.log("aqui");
             setIsLoading(false);
             return;
         };
 
         check();
-    }, [Action.Login, Action.Logout]);
+    }, []);
 
     const login = async (login: ILogin) => {
-        const loginResponse = await AuthHttpService.login(login);
-        const { data } = loginResponse;
+        const { data } = await AuthHttpService.login(login);
 
-        dispatch({ type: Action.Login, payload: data });
+        dispatch({ type: ActionType.Login, payload: data });
 
         if (!data) {
             toast({
@@ -89,8 +58,6 @@ const useProvideAuth = () => {
                 isClosable: true,
             });
         }
-
-        Request.setHeader(AUTH_HEADER_KEY, data);
     };
 
     const logout = async () => {
@@ -110,4 +77,4 @@ function AuthProvider(props: any) {
     return <AuthContext.Provider value={auth} {...props} />;
 }
 
-export { AuthProvider, useAuth, useProvideAuth };
+export { AuthProvider, useAuth };

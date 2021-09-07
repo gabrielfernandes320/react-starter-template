@@ -2,7 +2,7 @@ import { flatten, removeDuplicates } from "../../../utils/array";
 
 import React, { cloneElement } from "react";
 import { ReactNode } from "react";
-import { useAuth } from "../../../hooks/authContext";
+import { useAuth } from "../../../hooks/use-auth";
 import { IPermission } from "../../../interfaces/permission/permission";
 
 interface Props {
@@ -39,7 +39,7 @@ const PermissionsGate: React.FC<Props> = ({
 }: Props) => {
     const { user } = useAuth();
     const permissions: IPermission[] = removeDuplicates(
-        flatten(user?.roles.map((role) => role?.permissions))
+        flatten(user?.roles?.map((role) => role?.permissions))
     );
 
     const permissionGranted = hasPermission(

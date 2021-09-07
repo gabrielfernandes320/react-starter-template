@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Redirect, RouteProps } from "react-router-dom";
-import { useAuth } from "../../../hooks/authContext";
+import { useAuth } from "../../../hooks/use-auth";
 
 import { loginRoutePath } from "../../config";
 import { Flex, Spinner } from "@chakra-ui/react";

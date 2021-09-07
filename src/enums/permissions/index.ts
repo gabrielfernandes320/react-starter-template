@@ -1,2 +1,2 @@
-export * from "./RolesEnum";
-export * from "./UsersEnum";
+export * from "./roles-enum";
+export * from "./users-enum";
