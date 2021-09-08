@@ -1,14 +1,15 @@
 import { QueryClient, QueryClientProvider } from "react-query";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Router } from "react-router-dom";
 import Routes from "./routes";
 import { theme, ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { AuthProvider } from "./hooks/use-auth";
+import history from "./services/history";
 function App() {
     const queryClient = new QueryClient();
 
     return (
         <>
-            <Router>
+            <Router history={history}>
                 <ChakraProvider theme={theme}>
                     <QueryClientProvider client={queryClient}>
                         <ColorModeScript

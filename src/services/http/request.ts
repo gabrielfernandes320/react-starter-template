@@ -1,5 +1,7 @@
 import axios, { AxiosResponse, AxiosRequestConfig, AxiosInstance } from "axios";
 import { API_URL } from "../../config/api";
+import { loginRoutePath } from "../../routes/config";
+import history from "../history";
 interface RequestParams {
     method: string;
     path: string;
@@ -29,6 +31,17 @@ const api: AxiosInstance = axios.create({
         "Houston nós temos um problema na conexão. Tente novmente mais tarde",
 });
 
+api.interceptors.response.use(
+    function (response) {
+        return response;
+    },
+    function (error) {
+        if (error.response.data.statusCode === HTTP_STATUS.UNAUTHORIZED) {
+            history.push(loginRoutePath);
+        }
+        return Promise.reject(error);
+    }
+);
 class Request {
     public static HTTP_STATUS = HTTP_STATUS;
 
