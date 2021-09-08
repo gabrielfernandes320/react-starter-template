@@ -1,8 +1,11 @@
-import { IAuthAction } from "../../interfaces/auth/auth-action";
-import { ActionType } from "../../enums/auth/action-type-enum";
-import { IUseAuth } from "../../interfaces/auth/use-auth";
+import { IAuthAction } from "../interfaces";
+import ActionType from "../enums/action-type-enum";
+import { IAuthInitialState } from "../interfaces";
 
-export default function authReducer(state: any, action: IAuthAction) {
+export default function authReducer(
+    state: IAuthInitialState,
+    action: IAuthAction
+) {
     const { type, payload } = action;
     switch (type) {
         case ActionType.Login:
@@ -10,13 +13,13 @@ export default function authReducer(state: any, action: IAuthAction) {
                 ...state,
                 isAuthenticated: true,
                 user: payload.user,
-            };
+            } as IAuthInitialState;
         case ActionType.Logout:
             return {
                 ...state,
                 isAuthenticated: false,
                 user: {},
-            } as IUseAuth;
+            } as IAuthInitialState;
         default:
             throw new Error();
     }

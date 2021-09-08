@@ -7,22 +7,21 @@ import React, {
     useReducer,
 } from "react";
 import { useHistory } from "react-router-dom";
-import { ILogin } from "../interfaces/auth/login";
-import { IUseAuth } from "../interfaces/auth/use-auth";
-import { IUser } from "../interfaces/user/user";
-import { loginRoutePath } from "../routes/config";
-import AuthHttpService from "../services/http/auth-http";
-import { ActionType } from "../enums/auth/action-type-enum";
-import authReducer from "../reducers/auth/auth-reducer";
+import { ILogin } from "../../interfaces/auth/login";
+import { IAuthInitialState, IUseAuth } from "./interfaces";
+import { loginRoutePath } from "../../routes/config";
+import AuthHttpService from "../../services/http/auth-http";
+import ActionType from "./enums/action-type-enum";
+import authReducer from "./reducers/auth-reducer";
 
 const useProvideAuth = () => {
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(false);
     const toast = useToast();
 
-    const initialState = {
+    const initialState: IAuthInitialState = {
         isAuthenticated: true,
-        user: {} as IUser,
+        user: {},
     };
 
     const [state, dispatch] = useReducer(authReducer, initialState);
@@ -30,7 +29,6 @@ const useProvideAuth = () => {
     useEffect(() => {
         const check = async () => {
             setIsLoading(true);
-
             try {
                 const { data: user } =
                     await AuthHttpService.getAuthenticatedUser();

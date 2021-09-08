@@ -47,11 +47,20 @@ const BasicInfo: React.FC = () => {
                                             <Switch
                                                 size={"lg"}
                                                 onChange={(e) => {
-                                                    let newPermissions = [];
+                                                    let newPermissions: IPermission[] =
+                                                        [];
                                                     if (e.target.checked) {
-                                                        field.value?.push(item);
-                                                        newPermissions =
-                                                            field.value;
+                                                        if (field.value) {
+                                                            field.value?.push(
+                                                                item
+                                                            );
+                                                            newPermissions =
+                                                                field.value;
+                                                        } else {
+                                                            newPermissions.push(
+                                                                item
+                                                            );
+                                                        }
                                                     } else {
                                                         newPermissions =
                                                             getValues().permissions?.filter(

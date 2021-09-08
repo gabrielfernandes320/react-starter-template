@@ -1,4 +1,5 @@
-import { IUser } from "../user/user";
+import { IUser } from "../../../interfaces/user/user";
+
 export interface IUseAuth {
     login: Function;
     logout: Function;
