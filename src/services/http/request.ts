@@ -106,7 +106,7 @@ class Request {
             });
 
             return response;
-        } catch (error) {
+        } catch (error: any) {
             const requestIsCanceled = !error.response;
 
             if (requestIsCanceled) {
